@@ -22,6 +22,7 @@ class FeignApiClientServiceTest {
 	@DisplayName("소환사 이름으로 소환사 정보를 호출한다.")
 	public void getSummonerInfoByName() {
 
+		//given
 		String name = "리거누";
 		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
 			.id("id")
@@ -35,8 +36,10 @@ class FeignApiClientServiceTest {
 
 		when(apiClientService.getSummonerInfoByName(name)).thenReturn(summonerInfoResponse);
 
+		//when
 		SummonerInfoResponse summonerInfoByName = apiClientService.getSummonerInfoByName(name);
 
+		//then
 		assertThat(summonerInfoByName)
 			.hasFieldOrPropertyWithValue("id", summonerInfoResponse.id())
 			.hasFieldOrPropertyWithValue("accountId", summonerInfoResponse.accountId())

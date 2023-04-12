@@ -36,6 +36,7 @@ class SummonerServiceTest {
 	@Sql(scripts = {"/sql/summoner_dummy.sql"})
 	void getSummonerInfoByName_DB() {
 
+		//given
 		String name = "리거누";
 		Summoner summoner = Summoner.builder()
 			.id("id")
@@ -50,8 +51,10 @@ class SummonerServiceTest {
 		Optional<Summoner> optionalSummoner = Optional.of(summoner);
 		when(summonerRepository.findByName(name)).thenReturn(optionalSummoner);
 
+		//when
 		SummonerInfoResponse summonerInfoByName = summonerService.getSummonerInfoByName(name);
 
+		//then
 		assertNotNull(summonerInfoByName);
 		assertThat(summonerInfoByName)
 			.hasFieldOrPropertyWithValue("id", summoner.getId())
