@@ -18,3 +18,11 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
+riot-api:
+  key: ${API_KEY}
+  url: https://kr.api.riotgames.com
+
+logging:
+  level:
+    com.geonwoo.solokll.global.client.feign.feignclient.RiotSummonerOpenFeign: debug
