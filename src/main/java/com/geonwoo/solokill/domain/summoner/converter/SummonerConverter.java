@@ -15,7 +15,7 @@ public class SummonerConverter {
 			.puuid(summonerInfoResponse.puuid())
 			.name(summonerInfoResponse.name())
 			.profileIconId(summonerInfoResponse.profileIconId())
-			.revisionDate(summonerInfoResponse.revisionData())
+			.revisionDate(summonerInfoResponse.revisionDate())
 			.summonerLevel(summonerInfoResponse.summonerLevel())
 			.build();
 	}
@@ -27,7 +27,7 @@ public class SummonerConverter {
 			.puuid(summoner.getPuuid())
 			.name(summoner.getName())
 			.profileIconId(summoner.getProfileIconId())
-			.revisionData(summoner.getRevisionDate())
+			.revisionDate(summoner.getRevisionDate())
 			.summonerLevel(summoner.getSummonerLevel())
 			.build();
 	}

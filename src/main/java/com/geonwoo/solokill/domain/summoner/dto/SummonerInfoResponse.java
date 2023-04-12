@@ -8,18 +8,18 @@ public record SummonerInfoResponse(
 	String puuid,
 	String name,
 	Integer profileIconId,
-	Integer revisionData,
+	Integer revisionDate,
 	Integer summonerLevel
 ) {
 	@Builder
 	public SummonerInfoResponse(String id, String accountId, String puuid, String name, Integer profileIconId,
-		Integer revisionData, Integer summonerLevel) {
+		Integer revisionDate, Integer summonerLevel) {
 		this.id = id;
 		this.accountId = accountId;
 		this.puuid = puuid;
 		this.name = name;
 		this.profileIconId = profileIconId;
-		this.revisionData = revisionData;
+		this.revisionDate = revisionDate;
 		this.summonerLevel = summonerLevel;
 	}
 }
