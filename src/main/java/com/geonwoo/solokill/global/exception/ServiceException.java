@@ -3,7 +3,7 @@ package com.geonwoo.solokill.global.exception;
 import lombok.Getter;
 
 @Getter
-public abstract class ServiceException extends RuntimeException{
+public abstract class ServiceException extends RuntimeException {
 
 	private final ErrorCode errorCode;
 
