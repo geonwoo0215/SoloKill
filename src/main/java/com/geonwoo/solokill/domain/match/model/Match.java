@@ -78,4 +78,8 @@ public class Match {
 	public void addMatch(Match opponentMatch) {
 		this.opponentMatch = opponentMatch;
 	}
+
+	public boolean isSameTeamPosition(String teamPosition) {
+		return this.teamPosition.equals(teamPosition);
+	}
 }

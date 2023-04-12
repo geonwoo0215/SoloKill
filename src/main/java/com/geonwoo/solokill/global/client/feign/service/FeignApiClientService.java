@@ -41,40 +41,35 @@ public class FeignApiClientService implements ApiClientService {
 
 	@Override
 	public void getMatchInfoByPuuid(String puuid) {
-		List<String> matchIdResponses = riotMatchOpenFeign.getMatchId(puuid, GAME_TYPE, GAME_COUNT);
 
-		for (String matchId : matchIdResponses) {
+		List<String> matchIds = riotMatchOpenFeign.getMatchId(puuid, GAME_TYPE, GAME_COUNT);
+
+		for (String matchId : matchIds) {
 			MatchResponse matchResponse = riotMatchOpenFeign.getMatchByMatchId(matchId);
 			List<ParticipantResponse> participantResponses = matchResponse.info().participants();
 
-			String teamPosition = "";
 			List<Match> matchInfos = new ArrayList<>();
 
-			for (ParticipantResponse participantResponse : participantResponses) {
-				if (puuid.equals(participantResponse.puuid())) {
-					teamPosition = participantResponse.teamPosition();
-					Match match = MatchConverter.toMatch(participantResponse);
+			for (ParticipantResponse participant : participantResponses) {
+				if (puuid.equals(participant.puuid())) {
+					Match match = MatchConverter.toMatch(participant);
 					matchInfos.add(match);
 				}
 			}
-			for (ParticipantResponse participantResponse : participantResponses) {
-				if (teamPosition.equals(participantResponse.teamPosition()) && !puuid.equals(
-					participantResponse.puuid())) {
-					Match match = MatchConverter.toMatch(participantResponse);
 
-					matchInfos.add(match);
+			for (ParticipantResponse participant : participantResponses) {
+				if (!puuid.equals(participant.puuid())) {
+					for (Match match : matchInfos) {
+						if (match.isSameTeamPosition(participant.teamPosition())) {
+							Match opponentMatch = MatchConverter.toMatch(participant);
+							match.addMatch(opponentMatch);
+							opponentMatch.addMatch(match);
+						}
+					}
 				}
 			}
-			Match match1;
-			Match match2;
-			if (matchInfos.size() >= 2) {
-				match1 = matchInfos.get(0);
-				match2 = matchInfos.get(1);
-				match1.addMatch(match2);
-				match2.addMatch(match1);
-				matchRepository.save(match1);
-				matchRepository.save(match2);
-			}
+
+			matchRepository.saveAll(matchInfos);
 		}
 	}
 }
