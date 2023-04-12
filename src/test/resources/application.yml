@@ -16,3 +16,6 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
+
+riot-api:
+  url: https://kr.api.riotgames.com
