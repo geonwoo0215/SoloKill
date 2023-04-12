@@ -1,5 +1,7 @@
 package com.geonwoo.solokill.domain.match.model;
 
+import java.util.Objects;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -77,5 +79,9 @@ public class Match {
 
 	public void addMatch(Match opponentMatch) {
 		this.opponentMatch = opponentMatch;
+	}
+
+	public boolean isSameTeamPosition(String teamPosition) {
+		return Objects.equals(this.teamPosition, teamPosition);
 	}
 }
