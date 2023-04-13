@@ -15,6 +15,7 @@ public class MatchInfo {
 
 	@OneToMany(mappedBy = "matchInfo")
 	private final List<PlayerMatchRecord> playerMatchRecords = new ArrayList<>();
+	
 	@Id
 	private String matchId;
 

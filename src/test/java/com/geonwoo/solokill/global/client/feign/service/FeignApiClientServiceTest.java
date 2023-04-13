@@ -19,6 +19,7 @@ import com.geonwoo.solokill.domain.playermatchrecord.dto.MatchInfo;
 import com.geonwoo.solokill.domain.playermatchrecord.dto.MatchResponse;
 import com.geonwoo.solokill.domain.playermatchrecord.dto.ParticipantResponse;
 import com.geonwoo.solokill.domain.playermatchrecord.repository.MatchInfoRepository;
+import com.geonwoo.solokill.domain.playermatchrecord.repository.PlayerMatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
@@ -43,6 +44,9 @@ class FeignApiClientServiceTest {
 
 	@Mock
 	private MatchInfoRepository matchRepository;
+
+	@Mock
+	private PlayerMatchRecordRepository playerMatchRecordRepository;
 
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 호출한다.")
@@ -97,8 +101,9 @@ class FeignApiClientServiceTest {
 	void getMatchInfoByPuuid() {
 
 		String puuid = "puuid";
+		String puuid1 = "puuid1";
 		String gameType = "ranked";
-		Integer gameCount = 50;
+		Integer gameCount = 3;
 		String matchId = "matchId";
 		List<String> matchIds = new ArrayList<>();
 		matchIds.add(matchId);
@@ -107,7 +112,7 @@ class FeignApiClientServiceTest {
 		ChallengesResponse challengesResponse = new ChallengesResponse(1);
 		ParticipantResponse participantResponse1 = new ParticipantResponse(puuid, 1, "TOP", "Jayce", challengesResponse,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, true);
-		ParticipantResponse participantResponse2 = new ParticipantResponse("puuid2", 2, "TOP", "Gnar",
+		ParticipantResponse participantResponse2 = new ParticipantResponse(puuid1, 2, "TOP", "Gnar",
 			challengesResponse,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, false);
 		List<ParticipantResponse> participants = new ArrayList<>();
@@ -116,8 +121,19 @@ class FeignApiClientServiceTest {
 		MatchInfo matchInfo = new MatchInfo(participants);
 		MatchResponse matchResponse = new MatchResponse(matchInfo);
 
-		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
+		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
+			.id("id")
+			.accountId("accountId")
+			.puuid("puuid")
+			.name("리거누")
+			.profileIconId(1234)
+			.revisionDate(1234L)
+			.summonerLevel(1234)
+			.build();
 
+		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
+		when(riotSummonerOpenFeign.getSummonerInfoByPuuid(puuid)).thenReturn(summonerInfoResponse);
+		when(riotSummonerOpenFeign.getSummonerInfoByPuuid(puuid1)).thenReturn(summonerInfoResponse);
 		feignApiClientService.getMatchInfoByPuuid(puuid);
 
 		verify(riotMatchOpenFeign).getMatchId(puuid, gameType, gameCount);

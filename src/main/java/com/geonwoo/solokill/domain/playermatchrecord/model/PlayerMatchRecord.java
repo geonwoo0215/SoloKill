@@ -28,7 +28,7 @@ public class PlayerMatchRecord {
 	private Integer teamId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "puuid")
+	@JoinColumn(referencedColumnName = "puuid", name = "puuid")
 	private Summoner summoner;
 
 	private String teamPosition;
@@ -58,6 +58,7 @@ public class PlayerMatchRecord {
 	private Boolean win;
 
 	@ManyToOne
+	@JoinColumn(name = "match_info_id")
 	private MatchInfo matchInfo;
 
 	@Builder

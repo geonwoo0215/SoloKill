@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.jdbc.Sql;
 
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
@@ -33,7 +32,6 @@ class SummonerServiceTest {
 
 	@Test
 	@DisplayName("DB에서 소환사의 닉네임으로 소환사 정보를 가져오는데 성공한다.")
-	@Sql(scripts = {"/sql/Dummy.sql"})
 	void getSummonerInfoByName_DB() {
 
 		//given
@@ -44,7 +42,7 @@ class SummonerServiceTest {
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
-			.revisionDate(123456L)
+			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
@@ -79,7 +77,7 @@ class SummonerServiceTest {
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
-			.revisionDate(123456L)
+			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
