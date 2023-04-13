@@ -1,5 +1,6 @@
 package com.geonwoo.solokill.domain.matchrecord.repository;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,12 @@ public interface MatchRecordRepository
 		WHERE m.summoner.puuid = :puuid
 		""")
 	Set<String> findChampionNameByPuuid(@Param("puuid") String puuid);
+
+	@Query("""
+		SELECT m
+		FROM MatchRecord m
+		WHERE m.summoner.puuid = :puuid AND m.championName = :championName
+		""")
+	List<MatchRecord> findAllByPuuidAndChampionName(@Param("puuid") String puuid,
+		@Param("championName") String championName);
 }
