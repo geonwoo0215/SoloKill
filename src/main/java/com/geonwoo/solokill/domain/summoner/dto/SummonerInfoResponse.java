@@ -8,12 +8,12 @@ public record SummonerInfoResponse(
 	String puuid,
 	String name,
 	Integer profileIconId,
-	Integer revisionDate,
+	Long revisionDate,
 	Integer summonerLevel
 ) {
 	@Builder
 	public SummonerInfoResponse(String id, String accountId, String puuid, String name, Integer profileIconId,
-		Integer revisionDate, Integer summonerLevel) {
+		Long revisionDate, Integer summonerLevel) {
 		this.id = id;
 		this.accountId = accountId;
 		this.puuid = puuid;

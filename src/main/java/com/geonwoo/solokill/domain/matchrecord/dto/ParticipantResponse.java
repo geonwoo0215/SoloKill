@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.domain.match.dto;
+package com.geonwoo.solokill.domain.matchrecord.dto;
 
 public record ParticipantResponse(
 	String puuid,

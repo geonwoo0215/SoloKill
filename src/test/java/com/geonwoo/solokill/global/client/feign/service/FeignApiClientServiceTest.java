@@ -14,10 +14,12 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.geonwoo.solokill.domain.match.dto.ChallengesResponse;
-import com.geonwoo.solokill.domain.match.dto.MatchInfo;
-import com.geonwoo.solokill.domain.match.dto.MatchResponse;
-import com.geonwoo.solokill.domain.match.dto.ParticipantResponse;
+import com.geonwoo.solokill.domain.matchrecord.dto.ChallengesResponse;
+import com.geonwoo.solokill.domain.matchrecord.dto.MatchInfo;
+import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
+import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchInfoRepository;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
@@ -40,6 +42,12 @@ class FeignApiClientServiceTest {
 	@Mock
 	private SummonerRepository summonerRepository;
 
+	@Mock
+	private MatchInfoRepository matchRepository;
+
+	@Mock
+	private MatchRecordRepository matchRecordRepository;
+
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 호출한다.")
 	public void getSummonerInfoByName() {
@@ -52,7 +60,7 @@ class FeignApiClientServiceTest {
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
-			.revisionDate(1234)
+			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
@@ -62,7 +70,7 @@ class FeignApiClientServiceTest {
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
-			.revisionDate(1234)
+			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
@@ -89,12 +97,13 @@ class FeignApiClientServiceTest {
 	}
 
 	@Test
-	@DisplayName("소환사의 puuid로 경기id를 조회하고, 경기id로 경기를 조회하여 사용자의 경기 기록과, 사용자 맞라인 상대의 경기 기록을 저장한다.")
+	@DisplayName("소환사의 puuid로 경기id를 조회하고, 경기id로 경기를 조회하여 참여자들의 경기기록을 저장한다.")
 	void getMatchInfoByPuuid() {
 
 		String puuid = "puuid";
+		String puuid1 = "puuid1";
 		String gameType = "ranked";
-		Integer gameCount = 50;
+		Integer gameCount = 3;
 		String matchId = "matchId";
 		List<String> matchIds = new ArrayList<>();
 		matchIds.add(matchId);
@@ -103,7 +112,7 @@ class FeignApiClientServiceTest {
 		ChallengesResponse challengesResponse = new ChallengesResponse(1);
 		ParticipantResponse participantResponse1 = new ParticipantResponse(puuid, 1, "TOP", "Jayce", challengesResponse,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, true);
-		ParticipantResponse participantResponse2 = new ParticipantResponse("puuid2", 2, "TOP", "Gnar",
+		ParticipantResponse participantResponse2 = new ParticipantResponse(puuid1, 2, "TOP", "Gnar",
 			challengesResponse,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, false);
 		List<ParticipantResponse> participants = new ArrayList<>();
@@ -112,8 +121,19 @@ class FeignApiClientServiceTest {
 		MatchInfo matchInfo = new MatchInfo(participants);
 		MatchResponse matchResponse = new MatchResponse(matchInfo);
 
-		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
+		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
+			.id("id")
+			.accountId("accountId")
+			.puuid("puuid")
+			.name("리거누")
+			.profileIconId(1234)
+			.revisionDate(1234L)
+			.summonerLevel(1234)
+			.build();
 
+		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
+		when(riotSummonerOpenFeign.getSummonerInfoByPuuid(puuid)).thenReturn(summonerInfoResponse);
+		when(riotSummonerOpenFeign.getSummonerInfoByPuuid(puuid1)).thenReturn(summonerInfoResponse);
 		feignApiClientService.getMatchInfoByPuuid(puuid);
 
 		verify(riotMatchOpenFeign).getMatchId(puuid, gameType, gameCount);

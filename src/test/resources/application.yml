@@ -18,4 +18,6 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
 
 riot-api:
-  url: https://kr.api.riotgames.com
+  url:
+    kr: https://kr.api.riotgames.com
+    asia: https://asia.api.riotgames.com

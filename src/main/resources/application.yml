@@ -21,7 +21,9 @@ spring:
 
 riot-api:
   key: ${API_KEY}
-  url: https://kr.api.riotgames.com
+  url:
+    kr: https://kr.api.riotgames.com
+    asia: https://asia.api.riotgames.com
 
 logging:
   level:

@@ -1,12 +1,16 @@
-package com.geonwoo.solokill.domain.match.model;
+package com.geonwoo.solokill.domain.matchrecord.model;
 
 import java.util.Objects;
 
+import com.geonwoo.solokill.domain.summoner.model.Summoner;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Match {
+public class MatchRecord {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +27,9 @@ public class Match {
 
 	private Integer teamId;
 
-	private String puuid;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(referencedColumnName = "puuid", name = "puuid")
+	private Summoner summoner;
 
 	private String teamPosition;
 
@@ -51,17 +57,18 @@ public class Match {
 
 	private Boolean win;
 
-	@OneToOne
-	private Match opponentMatch;
+	@ManyToOne
+	@JoinColumn(name = "match_info_id")
+	private MatchInfo matchInfo;
 
 	@Builder
-	public Match(Long id, Integer teamId, String puuid, String teamPosition, Integer championId, String championName,
+	public MatchRecord(Long id, Integer teamId, String teamPosition, Integer championId,
+		String championName,
 		Integer soloKills, Integer visionScore, Integer visionWardsBoughtInGame, Integer totalMinionsKilled,
 		Integer totalDamageDealtToChampions, Integer goldEarned, Integer kills, Integer deaths, Integer assists,
 		Boolean win) {
 		this.id = id;
 		this.teamId = teamId;
-		this.puuid = puuid;
 		this.teamPosition = teamPosition;
 		this.championId = championId;
 		this.championName = championName;
@@ -77,8 +84,19 @@ public class Match {
 		this.win = win;
 	}
 
-	public void addMatch(Match opponentMatch) {
-		this.opponentMatch = opponentMatch;
+	public void addSummoner(Summoner summoner) {
+		if (this.summoner != null) {
+			return;
+		}
+		this.summoner = summoner;
+		summoner.addMatch(this);
+	}
+
+	public void addMatch(MatchInfo matchInfo) {
+		if (this.matchInfo != null) {
+			return;
+		}
+		this.matchInfo = matchInfo;
 	}
 
 	public boolean isSameTeamPosition(String teamPosition) {
