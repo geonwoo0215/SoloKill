@@ -59,7 +59,7 @@ public class FeignApiClientService implements ApiClientService {
 				summonerRepository.save(summoner);
 				PlayerMatchRecord playerMatchRecord = PlayerMatchRecordConverter.toPlayerMatchRecord(a);
 				playerMatchRecord.addSummoner(summoner);
-				matchInfo.addPLayerMatchRecord(playerMatchRecord);
+				matchInfo.addPlayerMatchRecord(playerMatchRecord);
 				return playerMatchRecord;
 			}).toList();
 			matchRepository.save(matchInfo);

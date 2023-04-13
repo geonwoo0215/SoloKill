@@ -15,7 +15,7 @@ public class MatchInfo {
 
 	@OneToMany(mappedBy = "matchInfo")
 	private final List<PlayerMatchRecord> playerMatchRecords = new ArrayList<>();
-	
+
 	@Id
 	private String matchId;
 
@@ -23,7 +23,7 @@ public class MatchInfo {
 		this.matchId = matchId;
 	}
 
-	public void addPLayerMatchRecord(PlayerMatchRecord playerMatchRecords) {
+	public void addPlayerMatchRecord(PlayerMatchRecord playerMatchRecords) {
 		this.playerMatchRecords.add(playerMatchRecords);
 		playerMatchRecords.addMatch(this);
 	}
