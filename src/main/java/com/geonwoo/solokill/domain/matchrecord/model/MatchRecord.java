@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.domain.playermatchrecord.model;
+package com.geonwoo.solokill.domain.matchrecord.model;
 
 import java.util.Objects;
 
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PlayerMatchRecord {
+public class MatchRecord {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +62,7 @@ public class PlayerMatchRecord {
 	private MatchInfo matchInfo;
 
 	@Builder
-	public PlayerMatchRecord(Long id, Integer teamId, String teamPosition, Integer championId,
+	public MatchRecord(Long id, Integer teamId, String teamPosition, Integer championId,
 		String championName,
 		Integer soloKills, Integer visionScore, Integer visionWardsBoughtInGame, Integer totalMinionsKilled,
 		Integer totalDamageDealtToChampions, Integer goldEarned, Integer kills, Integer deaths, Integer assists,

@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.geonwoo.solokill.domain.playermatchrecord.dto.ChallengesResponse;
-import com.geonwoo.solokill.domain.playermatchrecord.dto.MatchInfo;
-import com.geonwoo.solokill.domain.playermatchrecord.dto.MatchResponse;
-import com.geonwoo.solokill.domain.playermatchrecord.dto.ParticipantResponse;
-import com.geonwoo.solokill.domain.playermatchrecord.repository.MatchInfoRepository;
-import com.geonwoo.solokill.domain.playermatchrecord.repository.PlayerMatchRecordRepository;
+import com.geonwoo.solokill.domain.matchrecord.dto.ChallengesResponse;
+import com.geonwoo.solokill.domain.matchrecord.dto.MatchInfo;
+import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
+import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchInfoRepository;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
@@ -46,7 +46,7 @@ class FeignApiClientServiceTest {
 	private MatchInfoRepository matchRepository;
 
 	@Mock
-	private PlayerMatchRecordRepository playerMatchRecordRepository;
+	private MatchRecordRepository matchRecordRepository;
 
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 호출한다.")

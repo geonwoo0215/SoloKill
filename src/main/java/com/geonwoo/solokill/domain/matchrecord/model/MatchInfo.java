@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.domain.playermatchrecord.model;
+package com.geonwoo.solokill.domain.matchrecord.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class MatchInfo {
 
 	@OneToMany(mappedBy = "matchInfo")
-	private final List<PlayerMatchRecord> playerMatchRecords = new ArrayList<>();
+	private final List<MatchRecord> matchRecords = new ArrayList<>();
 
 	@Id
 	private String matchId;
@@ -23,8 +23,8 @@ public class MatchInfo {
 		this.matchId = matchId;
 	}
 
-	public void addPlayerMatchRecord(PlayerMatchRecord playerMatchRecords) {
-		this.playerMatchRecords.add(playerMatchRecords);
-		playerMatchRecords.addMatch(this);
+	public void addMatchRecord(MatchRecord matchRecords) {
+		this.matchRecords.add(matchRecords);
+		matchRecords.addMatch(this);
 	}
 }

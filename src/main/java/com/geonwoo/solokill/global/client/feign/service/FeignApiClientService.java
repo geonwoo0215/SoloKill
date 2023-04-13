@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.geonwoo.solokill.domain.playermatchrecord.converter.PlayerMatchRecordConverter;
-import com.geonwoo.solokill.domain.playermatchrecord.dto.MatchResponse;
-import com.geonwoo.solokill.domain.playermatchrecord.model.MatchInfo;
-import com.geonwoo.solokill.domain.playermatchrecord.model.PlayerMatchRecord;
-import com.geonwoo.solokill.domain.playermatchrecord.repository.MatchInfoRepository;
-import com.geonwoo.solokill.domain.playermatchrecord.repository.PlayerMatchRecordRepository;
+import com.geonwoo.solokill.domain.matchrecord.converter.MatchRecordConverter;
+import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
+import com.geonwoo.solokill.domain.matchrecord.model.MatchInfo;
+import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchInfoRepository;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
@@ -32,7 +32,7 @@ public class FeignApiClientService implements ApiClientService {
 	private final RiotMatchOpenFeign riotMatchOpenFeign;
 	private final MatchInfoRepository matchRepository;
 	private final SummonerRepository summonerRepository;
-	private final PlayerMatchRecordRepository playerMatchRecordRepository;
+	private final MatchRecordRepository matchRecordRepository;
 
 	@Override
 	public SummonerInfoResponse getSummonerInfoByName(String name) {
@@ -53,17 +53,17 @@ public class FeignApiClientService implements ApiClientService {
 			MatchInfo matchInfo = new MatchInfo(matchId);
 			MatchResponse matchResponse = riotMatchOpenFeign.getMatchByMatchId(matchId);
 			log.info("{}", matchResponse);
-			List<PlayerMatchRecord> playerMatchRecords = matchResponse.info().participants().stream().map(a -> {
+			List<MatchRecord> playerMatchRecords = matchResponse.info().participants().stream().map(a -> {
 				SummonerInfoResponse summonerInfoByPuuid = riotSummonerOpenFeign.getSummonerInfoByPuuid(a.puuid());
 				Summoner summoner = SummonerConverter.toSummoner(summonerInfoByPuuid);
 				summonerRepository.save(summoner);
-				PlayerMatchRecord playerMatchRecord = PlayerMatchRecordConverter.toPlayerMatchRecord(a);
-				playerMatchRecord.addSummoner(summoner);
-				matchInfo.addPlayerMatchRecord(playerMatchRecord);
-				return playerMatchRecord;
+				MatchRecord matchRecord = MatchRecordConverter.toMatchRecord(a);
+				matchRecord.addSummoner(summoner);
+				matchInfo.addMatchRecord(matchRecord);
+				return matchRecord;
 			}).toList();
 			matchRepository.save(matchInfo);
-			playerMatchRecordRepository.saveAll(playerMatchRecords);
+			matchRecordRepository.saveAll(playerMatchRecords);
 		}
 	}
 }

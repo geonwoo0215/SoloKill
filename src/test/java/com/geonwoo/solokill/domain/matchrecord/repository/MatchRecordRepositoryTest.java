@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.domain.playermatchrecord.repository;
+package com.geonwoo.solokill.domain.matchrecord.repository;
 
 import java.util.Set;
 
@@ -10,10 +10,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
 @DataJpaTest
-class PlayerMatchRecordRepositoryTest {
+class MatchRecordRepositoryTest {
 
 	@Autowired
-	private PlayerMatchRecordRepository playerMatchRecordRepository;
+	private MatchRecordRepository matchRecordRepository;
 
 	@Test
 	@Sql(scripts = {"/sql/Dummy.sql"})
@@ -24,7 +24,7 @@ class PlayerMatchRecordRepositoryTest {
 		String puuid = "puuid";
 
 		//when
-		Set<String> championNameByPuuid = playerMatchRecordRepository.findChampionNameByPuuid(puuid);
+		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameByPuuid(puuid);
 
 		//then
 		Assertions.assertThat(championNameByPuuid).contains("Jayce");

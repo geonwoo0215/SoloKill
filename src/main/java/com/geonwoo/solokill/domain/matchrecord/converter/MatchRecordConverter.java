@@ -1,15 +1,15 @@
-package com.geonwoo.solokill.domain.playermatchrecord.converter;
+package com.geonwoo.solokill.domain.matchrecord.converter;
 
 import org.springframework.stereotype.Component;
 
-import com.geonwoo.solokill.domain.playermatchrecord.dto.ParticipantResponse;
-import com.geonwoo.solokill.domain.playermatchrecord.model.PlayerMatchRecord;
+import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
+import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
 @Component
-public class PlayerMatchRecordConverter {
+public class MatchRecordConverter {
 
-	public static PlayerMatchRecord toPlayerMatchRecord(ParticipantResponse participantResponse) {
-		return PlayerMatchRecord.builder()
+	public static MatchRecord toMatchRecord(ParticipantResponse participantResponse) {
+		return MatchRecord.builder()
 			.teamId(participantResponse.teamId())
 			.teamPosition(participantResponse.teamPosition())
 			.championName(participantResponse.championName())

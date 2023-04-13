@@ -3,7 +3,7 @@ package com.geonwoo.solokill.domain.summoner.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.geonwoo.solokill.domain.playermatchrecord.model.PlayerMatchRecord;
+import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -34,7 +34,7 @@ public class Summoner {
 	private Integer summonerLevel;
 
 	@OneToMany(mappedBy = "summoner")
-	private List<PlayerMatchRecord> match = new ArrayList<>();
+	private List<MatchRecord> match = new ArrayList<>();
 
 	@Builder
 	protected Summoner(String id, String accountId, String puuid, String name, Integer profileIconId,
@@ -48,7 +48,7 @@ public class Summoner {
 		this.summonerLevel = summonerLevel;
 	}
 
-	public void addMatch(PlayerMatchRecord match) {
+	public void addMatch(MatchRecord match) {
 		this.match.add(match);
 	}
 }
