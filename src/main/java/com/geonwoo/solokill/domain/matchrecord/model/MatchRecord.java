@@ -102,4 +102,8 @@ public class MatchRecord {
 	public boolean isSameTeamPosition(String teamPosition) {
 		return Objects.equals(this.teamPosition, teamPosition);
 	}
+
+	public boolean isSameTeamId(Integer teamId) {
+		return Objects.equals(this.teamId, teamId);
+	}
 }
