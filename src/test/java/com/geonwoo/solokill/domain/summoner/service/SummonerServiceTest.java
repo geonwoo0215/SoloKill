@@ -33,7 +33,7 @@ class SummonerServiceTest {
 
 	@Test
 	@DisplayName("DB에서 소환사의 닉네임으로 소환사 정보를 가져오는데 성공한다.")
-	@Sql(scripts = {"/sql/summoner_dummy.sql"})
+	@Sql(scripts = {"/sql/Dummy.sql"})
 	void getSummonerInfoByName_DB() {
 
 		//given
@@ -44,7 +44,7 @@ class SummonerServiceTest {
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
-			.revisionDate(123456)
+			.revisionDate(123456L)
 			.summonerLevel(344)
 			.build();
 
@@ -79,7 +79,7 @@ class SummonerServiceTest {
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
-			.revisionDate(123456)
+			.revisionDate(123456L)
 			.summonerLevel(344)
 			.build();
 
