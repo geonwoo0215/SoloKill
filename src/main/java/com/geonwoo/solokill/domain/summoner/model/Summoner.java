@@ -1,7 +1,13 @@
 package com.geonwoo.solokill.domain.summoner.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.geonwoo.solokill.domain.playermatchrecord.model.PlayerMatchRecord;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,13 +29,16 @@ public class Summoner {
 
 	private Integer profileIconId;
 
-	private Integer revisionDate;
+	private Long revisionDate;
 
 	private Integer summonerLevel;
 
+	@OneToMany(mappedBy = "summoner")
+	private List<PlayerMatchRecord> match = new ArrayList<>();
+
 	@Builder
 	protected Summoner(String id, String accountId, String puuid, String name, Integer profileIconId,
-		Integer revisionDate, Integer summonerLevel) {
+		Long revisionDate, Integer summonerLevel) {
 		this.id = id;
 		this.accountId = accountId;
 		this.puuid = puuid;
@@ -37,5 +46,9 @@ public class Summoner {
 		this.profileIconId = profileIconId;
 		this.revisionDate = revisionDate;
 		this.summonerLevel = summonerLevel;
+	}
+
+	public void addMatch(PlayerMatchRecord match) {
+		this.match.add(match);
 	}
 }
