@@ -19,10 +19,10 @@ public class MatchInfo {
 	private final List<MatchRecord> matchRecords = new ArrayList<>();
 
 	@Id
-	private String matchId;
+	private String id;
 
-	public MatchInfo(String matchId) {
-		this.matchId = matchId;
+	public MatchInfo(String id) {
+		this.id = id;
 	}
 
 	public void addMatchRecord(MatchRecord matchRecords) {
