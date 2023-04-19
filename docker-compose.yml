@@ -1,0 +1,38 @@
+version: '3'
+services:
+  web:
+    container_name: solokill-web
+    image: nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - /root/nginx:/etc/nginx/conf.d
+
+  db:
+    container_name: solokill-db
+    image: mysql
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_USERNAME: ${DATASOURCE_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DATASOURCE_PASSWORD}
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    restart: always
+
+  app:
+    container_name: solokill-app
+    image: ${DOCKER_USERNAME}/${DOCKER_REPO}
+    ports:
+      - "8080"
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATASOURCE_URL: ${DATASOURCE_URL}
+      DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
+      DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+      API_KEY: ${API_KEY}
