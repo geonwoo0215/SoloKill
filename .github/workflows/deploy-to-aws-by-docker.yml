@@ -1,4 +1,4 @@
-name: CI-CD
+name: CD - Deploy Aws By Docker
 
 on:
   push:
