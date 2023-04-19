@@ -3,7 +3,7 @@ name: CI - Gradle Build
 # Event
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ develop, main ]
 
 # 권한 설정
 permissions:
