@@ -1,13 +1,5 @@
 version: '3'
 services:
-  web:
-    container_name: solokill-web
-    image: nginx
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - /root/nginx:/etc/nginx/conf.d
 
   db:
     container_name: solokill-db
