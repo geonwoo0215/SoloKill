@@ -5,7 +5,7 @@ services:
     container_name: solokill-db
     image: mysql
     environment:
-      MYSQL_DATABASE: app
+      MYSQL_DATABASE: solokill
       MYSQL_USERNAME: ${DATASOURCE_USERNAME}
       MYSQL_ROOT_PASSWORD: ${DATASOURCE_PASSWORD}
       TZ: Asia/Seoul
