@@ -34,7 +34,7 @@ jobs:
      
       # 빌드
       - name: Build with Gradle
-        run: ./gradlew bootJar
+        run: ./gradlew clean bootJar
 
       # 빌드 후 도커 허브로 push
       - name: Docker Build & Push to Hub
