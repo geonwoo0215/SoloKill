@@ -19,7 +19,7 @@ services:
     container_name: solokill-app
     image: ${DOCKER_USERNAME}/${DOCKER_REPO}
     ports:
-      - "8080"
+      - "8080:8080"
     restart: always
     depends_on:
       - db
