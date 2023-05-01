@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.geonwoo.solokill.domain.matchrecord.converter.MatchRecordConverter;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
-import com.geonwoo.solokill.domain.matchrecord.model.MatchInfo;
+import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchInfoRepository;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
