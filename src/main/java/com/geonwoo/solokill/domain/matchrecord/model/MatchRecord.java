@@ -2,6 +2,7 @@ package com.geonwoo.solokill.domain.matchrecord.model;
 
 import java.util.Objects;
 
+import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
 
 import jakarta.persistence.Entity;
