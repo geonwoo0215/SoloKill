@@ -38,11 +38,9 @@ class SummonerServiceTest {
 		String name = "리거누";
 		Summoner summoner = Summoner.builder()
 			.id("id")
-			.accountId("accountId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
-			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
@@ -56,10 +54,8 @@ class SummonerServiceTest {
 		assertNotNull(summonerInfoByName);
 		assertThat(summonerInfoByName)
 			.hasFieldOrPropertyWithValue("id", summoner.getId())
-			.hasFieldOrPropertyWithValue("accountId", summoner.getAccountId())
 			.hasFieldOrPropertyWithValue("puuid", summoner.getPuuid())
 			.hasFieldOrPropertyWithValue("profileIconId", summoner.getProfileIconId())
-			.hasFieldOrPropertyWithValue("revisionDate", summoner.getRevisionDate())
 			.hasFieldOrPropertyWithValue("summonerLevel", summoner.getSummonerLevel());
 
 		verify(summonerRepository).findByName(name);
@@ -73,11 +69,9 @@ class SummonerServiceTest {
 
 		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
 			.id("id")
-			.accountId("accountId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
-			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
@@ -90,10 +84,8 @@ class SummonerServiceTest {
 
 		assertThat(summonerInfoByName)
 			.hasFieldOrPropertyWithValue("id", summonerInfoByName.id())
-			.hasFieldOrPropertyWithValue("accountId", summonerInfoByName.accountId())
 			.hasFieldOrPropertyWithValue("puuid", summonerInfoByName.puuid())
 			.hasFieldOrPropertyWithValue("profileIconId", summonerInfoByName.profileIconId())
-			.hasFieldOrPropertyWithValue("revisionDate", summonerInfoByName.revisionDate())
 			.hasFieldOrPropertyWithValue("summonerLevel", summonerInfoByName.summonerLevel());
 
 		verify(summonerRepository).findByName(name);

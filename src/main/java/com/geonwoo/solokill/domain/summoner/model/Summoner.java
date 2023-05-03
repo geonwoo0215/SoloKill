@@ -7,7 +7,9 @@ import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,12 +18,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "summoner", indexes = @Index(name = "idx_puuid", columnList = "puuid"))
 public class Summoner {
 
 	@Id
 	private String id;
-
-	private String accountId;
 
 	private String puuid;
 
@@ -29,22 +30,17 @@ public class Summoner {
 
 	private Integer profileIconId;
 
-	private Long revisionDate;
-
 	private Integer summonerLevel;
 
 	@OneToMany(mappedBy = "summoner")
 	private List<MatchRecord> match = new ArrayList<>();
 
 	@Builder
-	protected Summoner(String id, String accountId, String puuid, String name, Integer profileIconId,
-		Long revisionDate, Integer summonerLevel) {
+	protected Summoner(String id, String puuid, String name, Integer profileIconId, Integer summonerLevel) {
 		this.id = id;
-		this.accountId = accountId;
 		this.puuid = puuid;
 		this.name = name;
 		this.profileIconId = profileIconId;
-		this.revisionDate = revisionDate;
 		this.summonerLevel = summonerLevel;
 	}
 

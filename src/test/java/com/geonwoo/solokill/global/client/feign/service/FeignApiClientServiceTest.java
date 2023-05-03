@@ -56,21 +56,17 @@ class FeignApiClientServiceTest {
 		String name = "리거누";
 		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
 			.id("id")
-			.accountId("accountId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
-			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
 		Summoner summoner = Summoner.builder()
 			.id("id")
-			.accountId("accountId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
-			.revisionDate(1234L)
 			.summonerLevel(344)
 			.build();
 
@@ -85,10 +81,8 @@ class FeignApiClientServiceTest {
 		//then
 		assertThat(summonerInfoByName)
 			.hasFieldOrPropertyWithValue("id", summonerInfoResponse.id())
-			.hasFieldOrPropertyWithValue("accountId", summonerInfoResponse.accountId())
 			.hasFieldOrPropertyWithValue("puuid", summonerInfoResponse.puuid())
 			.hasFieldOrPropertyWithValue("profileIconId", summonerInfoResponse.profileIconId())
-			.hasFieldOrPropertyWithValue("revisionDate", summonerInfoResponse.revisionDate())
 			.hasFieldOrPropertyWithValue("summonerLevel", summonerInfoResponse.summonerLevel());
 
 		verify(riotSummonerOpenFeign).getSummonerInfoByName(name);
@@ -123,11 +117,9 @@ class FeignApiClientServiceTest {
 
 		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
 			.id("id")
-			.accountId("accountId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
-			.revisionDate(1234L)
 			.summonerLevel(1234)
 			.build();
 
