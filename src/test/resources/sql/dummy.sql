@@ -1,5 +1,5 @@
 insert into summoner (id, puuid, name, profile_icon_id, summoner_level)
-values ('id', 'puuid', '리거누', 1234, 344);
+values ('summoner_id', 'puuid', '리거누', 1234, 344);
 
 insert into match_info(id)
 values ('matchId');
