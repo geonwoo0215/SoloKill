@@ -3,11 +3,18 @@ package com.geonwoo.solokill.domain.summoner.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Persistable;
+
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,12 +23,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Summoner {
+@Table(name = "summoner", indexes = @Index(name = "idx_puuid", unique = true, columnList = "puuid"))
+public class Summoner implements Persistable<String> {
 
 	@Id
 	private String id;
-
-	private String accountId;
 
 	private String puuid;
 
@@ -29,26 +35,41 @@ public class Summoner {
 
 	private Integer profileIconId;
 
-	private Long revisionDate;
-
 	private Integer summonerLevel;
 
 	@OneToMany(mappedBy = "summoner")
 	private List<MatchRecord> match = new ArrayList<>();
 
 	@Builder
-	protected Summoner(String id, String accountId, String puuid, String name, Integer profileIconId,
-		Long revisionDate, Integer summonerLevel) {
+	protected Summoner(String id, String puuid, String name, Integer profileIconId, Integer summonerLevel) {
 		this.id = id;
-		this.accountId = accountId;
 		this.puuid = puuid;
 		this.name = name;
 		this.profileIconId = profileIconId;
-		this.revisionDate = revisionDate;
 		this.summonerLevel = summonerLevel;
 	}
 
-	public void addMatch(MatchRecord match) {
-		this.match.add(match);
+	@Transient
+	private boolean isNew = true;
+
+	@Override
+	public String getId() {
+		return id;
 	}
+
+	@Override
+	public boolean isNew() {
+		return isNew;
+	}
+
+	@PrePersist
+	@PostLoad
+	void markNotNew() {
+		this.isNew = false;
+	}
+
+	public void addMatchRecord(MatchRecord matchRecord) {
+		this.match.add(matchRecord);
+	}
+
 }

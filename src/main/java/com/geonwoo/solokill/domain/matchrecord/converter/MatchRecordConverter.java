@@ -4,12 +4,15 @@ import org.springframework.stereotype.Component;
 
 import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
+import com.geonwoo.solokill.domain.summoner.model.Summoner;
 
 @Component
 public class MatchRecordConverter {
 
-	public static MatchRecord toMatchRecord(ParticipantResponse participantResponse) {
-		return MatchRecord.builder()
+	public static MatchRecord toMatchRecord(ParticipantResponse participantResponse, String matchInfoId) {
+		MatchRecord matchRecord = MatchRecord.builder()
+			.summonerId(participantResponse.summonerId())
+			.matchInfoId(matchInfoId)
 			.teamId(participantResponse.teamId())
 			.teamPosition(participantResponse.teamPosition())
 			.championName(participantResponse.championName())
@@ -25,5 +28,17 @@ public class MatchRecordConverter {
 			.assists(participantResponse.assists())
 			.win(participantResponse.win())
 			.build();
+
+		Summoner summoner = Summoner.builder()
+			.id(participantResponse.summonerId())
+			.name(participantResponse.summonerName())
+			.puuid(participantResponse.puuid())
+			.profileIconId(participantResponse.profileIcon())
+			.summonerLevel(participantResponse.summonerLevel())
+			.build();
+
+		matchRecord.addSummoner(summoner);
+
+		return matchRecord;
 	}
 }

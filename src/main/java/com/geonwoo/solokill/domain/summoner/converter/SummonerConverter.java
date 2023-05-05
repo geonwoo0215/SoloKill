@@ -11,11 +11,9 @@ public class SummonerConverter {
 	public static Summoner toSummoner(SummonerInfoResponse summonerInfoResponse) {
 		return Summoner.builder()
 			.id(summonerInfoResponse.id())
-			.accountId(summonerInfoResponse.accountId())
 			.puuid(summonerInfoResponse.puuid())
 			.name(summonerInfoResponse.name())
 			.profileIconId(summonerInfoResponse.profileIconId())
-			.revisionDate(summonerInfoResponse.revisionDate())
 			.summonerLevel(summonerInfoResponse.summonerLevel())
 			.build();
 	}
@@ -23,11 +21,9 @@ public class SummonerConverter {
 	public static SummonerInfoResponse toSummonerInfoResponse(Summoner summoner) {
 		return SummonerInfoResponse.builder()
 			.id(summoner.getId())
-			.accountId(summoner.getAccountId())
 			.puuid(summoner.getPuuid())
 			.name(summoner.getName())
 			.profileIconId(summoner.getProfileIconId())
-			.revisionDate(summoner.getRevisionDate())
 			.summonerLevel(summoner.getSummonerLevel())
 			.build();
 	}

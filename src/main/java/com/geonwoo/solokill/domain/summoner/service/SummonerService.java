@@ -19,6 +19,7 @@ public class SummonerService {
 	private final SummonerRepository summonerRepository;
 	private final ApiClientService apiClientService;
 
+	@Transactional
 	public SummonerInfoResponse getSummonerInfoByName(String name) {
 		Summoner summoner = summonerRepository.findByName(name)
 			.orElseGet(() -> SummonerConverter.toSummoner(apiClientService.getSummonerInfoByName(name)));

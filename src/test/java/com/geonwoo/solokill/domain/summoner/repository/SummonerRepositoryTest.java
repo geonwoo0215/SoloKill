@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.geonwoo.solokill.EnableQueryLog;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
 
 @DataJpaTest
+@EnableQueryLog
 class SummonerRepositoryTest {
 
 	@Autowired
@@ -20,7 +22,7 @@ class SummonerRepositoryTest {
 
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 조회한다.")
-	@Sql(scripts = {"/sql/Dummy.sql"})
+	@Sql(scripts = {"/sql/dummy.sql"})
 	void findByName() {
 
 		//given

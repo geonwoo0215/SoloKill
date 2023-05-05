@@ -2,16 +2,20 @@ package com.geonwoo.solokill.domain.matchrecord.model;
 
 import java.util.Objects;
 
+import org.springframework.data.domain.Persistable;
+
 import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,17 +24,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MatchRecord {
+public class MatchRecord implements Persistable<MatchRecordPk> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@EmbeddedId
+	private MatchRecordPk matchRecordPk;
+
+	@MapsId("summonerId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "summoner_id")
+	private Summoner summoner;
+
+	@MapsId("matchInfoId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "match_info_id")
+	private MatchInfo matchInfo;
 
 	private Integer teamId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(referencedColumnName = "puuid", name = "puuid")
-	private Summoner summoner;
 
 	private String teamPosition;
 
@@ -58,17 +67,13 @@ public class MatchRecord {
 
 	private Boolean win;
 
-	@ManyToOne
-	@JoinColumn(name = "match_info_id")
-	private MatchInfo matchInfo;
-
 	@Builder
-	public MatchRecord(Long id, Integer teamId, String teamPosition, Integer championId,
+	public MatchRecord(String summonerId, String matchInfoId, Integer teamId, String teamPosition, Integer championId,
 		String championName,
 		Integer soloKills, Integer visionScore, Integer visionWardsBoughtInGame, Integer totalMinionsKilled,
 		Integer totalDamageDealtToChampions, Integer goldEarned, Integer kills, Integer deaths, Integer assists,
 		Boolean win) {
-		this.id = id;
+		this.matchRecordPk = new MatchRecordPk(summonerId, matchInfoId);
 		this.teamId = teamId;
 		this.teamPosition = teamPosition;
 		this.championId = championId;
@@ -90,7 +95,7 @@ public class MatchRecord {
 			return;
 		}
 		this.summoner = summoner;
-		summoner.addMatch(this);
+		summoner.addMatchRecord(this);
 	}
 
 	public void addMatch(MatchInfo matchInfo) {
@@ -98,6 +103,7 @@ public class MatchRecord {
 			return;
 		}
 		this.matchInfo = matchInfo;
+		matchInfo.addMatchRecord(this);
 	}
 
 	public boolean isSameTeamPosition(String teamPosition) {
@@ -106,5 +112,24 @@ public class MatchRecord {
 
 	public boolean isSameTeamId(Integer teamId) {
 		return Objects.equals(this.teamId, teamId);
+	}
+
+	@Transient
+	private boolean isNew = true;
+
+	@Override
+	public MatchRecordPk getId() {
+		return matchRecordPk;
+	}
+
+	@Override
+	public boolean isNew() {
+		return isNew;
+	}
+
+	@PrePersist
+	@PostLoad
+	void markNotNew() {
+		this.isNew = false;
 	}
 }
