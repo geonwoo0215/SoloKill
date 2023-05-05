@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.domain.matchrecord.repository;
+package com.geonwoo.solokill.domain.matchInfo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

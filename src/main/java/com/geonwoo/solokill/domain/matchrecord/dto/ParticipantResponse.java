@@ -1,7 +1,6 @@
 package com.geonwoo.solokill.domain.matchrecord.dto;
 
 public record ParticipantResponse(
-	String puuid,
 	Integer teamId,
 	String teamPosition,
 	String championName,
@@ -15,6 +14,11 @@ public record ParticipantResponse(
 	Integer kills,
 	Integer deaths,
 	Integer assists,
-	Boolean win
+	Boolean win,
+	String summonerId,
+	String puuid,
+	String summonerName,
+	Integer profileIcon,
+	Integer summonerLevel
 ) {
 }
