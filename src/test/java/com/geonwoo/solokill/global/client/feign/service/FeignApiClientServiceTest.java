@@ -18,7 +18,7 @@ import com.geonwoo.solokill.domain.matchrecord.dto.ChallengesResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchInfo;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
-import com.geonwoo.solokill.domain.matchrecord.repository.MatchInfoRepository;
+import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
@@ -43,7 +43,7 @@ class FeignApiClientServiceTest {
 	private SummonerRepository summonerRepository;
 
 	@Mock
-	private MatchInfoRepository matchRepository;
+	private MatchInfoRepository matchInfoRepository;
 
 	@Mock
 	private MatchRecordRepository matchRecordRepository;
@@ -101,34 +101,27 @@ class FeignApiClientServiceTest {
 		String matchId = "matchId";
 		List<String> matchIds = new ArrayList<>();
 		matchIds.add(matchId);
-		when(riotMatchOpenFeign.getMatchId(puuid, gameType, gameCount)).thenReturn(matchIds);
 
 		ChallengesResponse challengesResponse = new ChallengesResponse(1);
-		ParticipantResponse participantResponse1 = new ParticipantResponse(puuid, 1, "TOP", "Jayce", challengesResponse,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, true);
-		ParticipantResponse participantResponse2 = new ParticipantResponse(puuid1, 2, "TOP", "Gnar",
+		ParticipantResponse participantResponse1 = new ParticipantResponse(1, "TOP", "Jayce", challengesResponse,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, true, "summoner1", puuid, "리거누", 1234, 324);
+		ParticipantResponse participantResponse2 = new ParticipantResponse(2, "TOP", "Gnar",
 			challengesResponse,
-			1, 1, 1, 1, 1, 1, 1, 1, 1, false);
+			1, 1, 1, 1, 1, 1, 1, 1, 1, false, "summoner2", puuid1, "Hide On Bush", 1234, 1234);
 		List<ParticipantResponse> participants = new ArrayList<>();
 		participants.add(participantResponse1);
 		participants.add(participantResponse2);
 		MatchInfo matchInfo = new MatchInfo(participants);
 		MatchResponse matchResponse = new MatchResponse(matchInfo);
 
-		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
-			.id("id")
-			.puuid("puuid")
-			.name("리거누")
-			.profileIconId(1234)
-			.summonerLevel(1234)
-			.build();
-
+		when(riotMatchOpenFeign.getMatchId(puuid, gameType, gameCount)).thenReturn(matchIds);
 		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
-		when(riotSummonerOpenFeign.getSummonerInfoByPuuid(puuid)).thenReturn(summonerInfoResponse);
-		when(riotSummonerOpenFeign.getSummonerInfoByPuuid(puuid1)).thenReturn(summonerInfoResponse);
+		when(matchInfoRepository.existsById(matchId)).thenReturn(false);
+
 		feignApiClientService.getMatchInfoByPuuid(puuid);
 
 		verify(riotMatchOpenFeign).getMatchId(puuid, gameType, gameCount);
 		verify(riotMatchOpenFeign).getMatchByMatchId(matchId);
+		verify(matchInfoRepository).existsById(matchId);
 	}
 }

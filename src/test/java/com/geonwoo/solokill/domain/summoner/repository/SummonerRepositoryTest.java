@@ -22,7 +22,7 @@ class SummonerRepositoryTest {
 
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 조회한다.")
-	@Sql(scripts = {"/sql/Dummy.sql"})
+	@Sql(scripts = {"/sql/dummy.sql"})
 	void findByName() {
 
 		//given

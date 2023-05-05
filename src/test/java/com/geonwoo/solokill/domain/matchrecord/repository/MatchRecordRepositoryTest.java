@@ -1,8 +1,9 @@
 package com.geonwoo.solokill.domain.matchrecord.repository;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.util.Set;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ class MatchRecordRepositoryTest {
 	private MatchRecordRepository matchRecordRepository;
 
 	@Test
-	@Sql(scripts = {"/sql/Dummy.sql"})
+	@Sql(scripts = {"/sql/dummy.sql"})
 	@DisplayName("사용자의 puuid로 경기에서 사용한 챔피언의 이름을 조회한다.")
 	void findChampionNameByPuuid() {
 
@@ -27,6 +28,6 @@ class MatchRecordRepositoryTest {
 		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameByPuuid(puuid);
 
 		//then
-		Assertions.assertThat(championNameByPuuid).contains("Jayce");
+		assertThat(championNameByPuuid).contains("Jayce");
 	}
 }
