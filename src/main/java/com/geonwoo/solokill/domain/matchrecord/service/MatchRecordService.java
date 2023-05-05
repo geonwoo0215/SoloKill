@@ -9,7 +9,6 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.geonwoo.solokill.domain.matchrecord.dto.PlayerChampionResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.PlayerMatchUpResponse;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
@@ -24,23 +23,23 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class MatchRecordService {
 
-	private final MatchRecordRepository matchRepository;
+	private final MatchRecordRepository matchRecordRepository;
 	private final SummonerService summonerService;
 	private final ApiClientService apiClientService;
 
 	@Transactional
-	public List<PlayerChampionResponse> getPlayerChampionByName(String name) {
+	public List<String> getPlayerChampionByName(String name) {
 		SummonerInfoResponse summonerInfoByName = summonerService.getSummonerInfoByName(name);
 		apiClientService.getMatchInfoByPuuid(summonerInfoByName.puuid());
-		Set<String> championNameByPuuid = matchRepository.findChampionNameByPuuid(summonerInfoByName.puuid());
-		return championNameByPuuid.stream().map(PlayerChampionResponse::new).toList();
+		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameByPuuid(summonerInfoByName.puuid());
+		return championNameByPuuid.stream().toList();
 	}
 
 	public List<PlayerMatchUpResponse> getPlayerMatchUpByChampionName(String name, String championName) {
 
 		SummonerInfoResponse summonerInfoByName = summonerService.getSummonerInfoByName(name);
 
-		List<MatchRecord> matchRecords = matchRepository.findAllByPuuidAndChampionName(summonerInfoByName.puuid(),
+		List<MatchRecord> matchRecords = matchRecordRepository.findAllByPuuidAndChampionName(summonerInfoByName.puuid(),
 			championName);
 
 		Set<String> opponentChampion = new HashSet<>();

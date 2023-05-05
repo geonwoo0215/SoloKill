@@ -21,9 +21,9 @@ public class MatchRecordController {
 	private final MatchRecordService matchRecordService;
 
 	@GetMapping("/matchRecord/{summonerName}")
-	public ResponseEntity<ApiResponse<List<PlayerChampionResponse>>> getSummonerInfo(
+	public ResponseEntity<ApiResponse<List<String>>> getSummonerInfo(
 		@PathVariable("summonerName") String name) {
-		List<PlayerChampionResponse> responses = matchRecordService.getPlayerChampionByName(name);
+		List<String> responses = matchRecordService.getPlayerChampionByName(name);
 		return ResponseEntity.ok(new ApiResponse<>(responses));
 	}
 
