@@ -56,9 +56,17 @@ public class FeignApiClientService implements ApiClientService {
 
 				matchResponse.info().participants().forEach(participantResponse ->
 					{
-						if (!summonerRepository.existsById(participantResponse.summonerId()) &&
-							!matchRecordRepository.existsById(new MatchRecordPk(participantResponse.summonerId(), matchId))) {
+						if (!matchRecordRepository.existsById(new MatchRecordPk(participantResponse.summonerId(), matchId))) {
 							MatchRecord matchRecord = MatchRecordConverter.toMatchRecord(participantResponse, matchId);
+							Summoner summoner = summonerRepository.findById(participantResponse.summonerId()).orElseGet(()->
+								SummonerConverter.toSummoner(new SummonerInfoResponse(
+									participantResponse.summonerId(),
+									participantResponse.puuid(),
+									participantResponse.summonerName(),
+									participantResponse.profileIcon(),
+									participantResponse.summonerLevel()))
+							);
+							matchRecord.addSummoner(summoner);
 							matchRecord.addMatch(matchInfo);
 							matchRecordRepository.save(matchRecord);
 						}
