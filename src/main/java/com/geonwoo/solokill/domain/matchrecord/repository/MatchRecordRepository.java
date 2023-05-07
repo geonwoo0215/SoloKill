@@ -16,9 +16,9 @@ public interface MatchRecordRepository
 	@Query("""
 		SELECT m.championName
 		FROM MatchRecord m
-		WHERE m.summoner.puuid = :puuid
+		WHERE m.matchRecordPk.summonerId = :id
 		""")
-	Set<String> findChampionNameByPuuid(@Param("puuid") String puuid);
+	Set<String> findChampionNameBySummonerId(@Param("id") String id);
 
 	@Query("""
 		SELECT m

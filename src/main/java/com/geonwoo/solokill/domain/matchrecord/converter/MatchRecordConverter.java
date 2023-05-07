@@ -29,16 +29,6 @@ public class MatchRecordConverter {
 			.win(participantResponse.win())
 			.build();
 
-		Summoner summoner = Summoner.builder()
-			.id(participantResponse.summonerId())
-			.name(participantResponse.summonerName())
-			.puuid(participantResponse.puuid())
-			.profileIconId(participantResponse.profileIcon())
-			.summonerLevel(participantResponse.summonerLevel())
-			.build();
-
-		matchRecord.addSummoner(summoner);
-
 		return matchRecord;
 	}
 }

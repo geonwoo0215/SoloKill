@@ -31,7 +31,7 @@ public class MatchRecordService {
 	public List<String> getPlayerChampionByName(String name) {
 		SummonerInfoResponse summonerInfoByName = summonerService.getSummonerInfoByName(name);
 		apiClientService.getMatchInfoByPuuid(summonerInfoByName.puuid());
-		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameByPuuid(summonerInfoByName.puuid());
+		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameBySummonerId(summonerInfoByName.id());
 		return championNameByPuuid.stream().toList();
 	}
 
