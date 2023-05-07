@@ -39,6 +39,7 @@ public class MatchRecordService {
 
 		SummonerInfoResponse summonerInfoByName = summonerService.getSummonerInfoByName(name);
 
+
 		List<MatchRecord> matchRecords = matchRecordRepository.findAllByPuuidAndChampionName(summonerInfoByName.puuid(),
 			championName);
 

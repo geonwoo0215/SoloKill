@@ -6,6 +6,7 @@ import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
 
+
 @Component
 public class MatchRecordConverter {
 
@@ -30,5 +31,6 @@ public class MatchRecordConverter {
 			.build();
 
 		return matchRecord;
+
 	}
 }

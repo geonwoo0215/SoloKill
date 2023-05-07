@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "summoner", indexes = @Index(name = "idx_puuid", unique = true, columnList = "puuid"))
 public class Summoner implements Persistable<String> {
 
+
 	@Id
 	private String id;
 

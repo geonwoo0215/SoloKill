@@ -67,6 +67,7 @@ public class MatchRecord implements Persistable<MatchRecordPk> {
 
 	private Boolean win;
 
+
 	@Builder
 	public MatchRecord(String summonerId, String matchInfoId, Integer teamId, String teamPosition, Integer championId,
 		String championName,
