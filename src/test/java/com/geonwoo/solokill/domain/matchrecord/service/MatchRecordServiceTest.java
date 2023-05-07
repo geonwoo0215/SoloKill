@@ -48,7 +48,7 @@ class MatchRecordServiceTest {
 
 		when(summonerService.getSummonerInfoByName(name)).thenReturn(summonerInfoResponse);
 		doNothing().when(apiClientService).getMatchInfoByPuuid(summonerInfoResponse.puuid());
-		when(matchRecordRepository.findChampionNameByPuuid(summonerInfoResponse.puuid())).thenReturn(championName);
+		when(matchRecordRepository.findChampionNameBySummonerId(summonerInfoResponse.puuid())).thenReturn(championName);
 
 		List<String> responses = matchRecordService.getPlayerChampionByName(name);
 
@@ -56,6 +56,6 @@ class MatchRecordServiceTest {
 
 		verify(summonerService).getSummonerInfoByName(name);
 		verify(apiClientService).getMatchInfoByPuuid("puuid");
-		verify(matchRecordRepository).findChampionNameByPuuid("puuid");
+		verify(matchRecordRepository).findChampionNameBySummonerId("puuid");
 	}
 }

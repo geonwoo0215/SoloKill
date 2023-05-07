@@ -25,7 +25,7 @@ class MatchRecordRepositoryTest {
 		String puuid = "puuid";
 
 		//when
-		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameByPuuid(puuid);
+		Set<String> championNameByPuuid = matchRecordRepository.findChampionNameBySummonerId(puuid);
 
 		//then
 		assertThat(championNameByPuuid).contains("Jayce");
