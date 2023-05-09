@@ -10,7 +10,7 @@ public class SummonerConverter {
 
 	public static Summoner toSummoner(SummonerInfoResponse summonerInfoResponse) {
 		return Summoner.builder()
-			.id(summonerInfoResponse.id())
+			.summonerId(summonerInfoResponse.id())
 			.puuid(summonerInfoResponse.puuid())
 			.name(summonerInfoResponse.name())
 			.profileIconId(summonerInfoResponse.profileIconId())
@@ -20,7 +20,7 @@ public class SummonerConverter {
 
 	public static SummonerInfoResponse toSummonerInfoResponse(Summoner summoner) {
 		return SummonerInfoResponse.builder()
-			.id(summoner.getId())
+			.id(summoner.getSummonerId())
 			.puuid(summoner.getPuuid())
 			.name(summoner.getName())
 			.profileIconId(summoner.getProfileIconId())
