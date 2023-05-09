@@ -8,10 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
-import com.geonwoo.solokill.domain.matchrecord.model.MatchRecordPk;
 
 public interface MatchRecordRepository
-	extends JpaRepository<MatchRecord, MatchRecordPk> {
+	extends JpaRepository<MatchRecord, Long> {
 
 	@Query("""
 		SELECT m.championName
