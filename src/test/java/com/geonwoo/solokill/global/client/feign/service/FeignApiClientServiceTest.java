@@ -19,6 +19,7 @@ import com.geonwoo.solokill.domain.matchrecord.dto.MatchInfo;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
 import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
+import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordJdbcRepository;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
@@ -48,6 +49,9 @@ class FeignApiClientServiceTest {
 	@Mock
 	private MatchRecordRepository matchRecordRepository;
 
+	@Mock
+	private MatchRecordJdbcRepository matchRecordJdbcRepository;
+
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 호출한다.")
 	public void getSummonerInfoByName() {
@@ -55,7 +59,7 @@ class FeignApiClientServiceTest {
 		//given
 		String name = "리거누";
 		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
-			.id("id")
+			.id("summonerId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
@@ -63,7 +67,7 @@ class FeignApiClientServiceTest {
 			.build();
 
 		Summoner summoner = Summoner.builder()
-			.id("id")
+			.summonerId("summonerId")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
@@ -116,12 +120,10 @@ class FeignApiClientServiceTest {
 
 		when(riotMatchOpenFeign.getMatchId(puuid, gameType, gameCount)).thenReturn(matchIds);
 		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
-		when(matchInfoRepository.existsById(matchId)).thenReturn(false);
 
 		feignApiClientService.getMatchInfoByPuuid(puuid);
 
 		verify(riotMatchOpenFeign).getMatchId(puuid, gameType, gameCount);
 		verify(riotMatchOpenFeign).getMatchByMatchId(matchId);
-		verify(matchInfoRepository).existsById(matchId);
 	}
 }
