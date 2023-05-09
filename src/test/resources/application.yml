@@ -5,21 +5,24 @@ spring:
 
 
   datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${TEST_DATASOURCE_URL}
+    username: ${TEST_DATASOURCE_USERNAME}
+    password: ${TEST_DATASOURCE_PASSWORD}
 
   jpa:
     open-in-view: false
-    database: h2
+    database: mysql
     show-sql: false
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
         format_sql: false
-        dialect: org.hibernate.dialect.H2Dialect
+        order_inserts: true
+        jdbc:
+          batch_size: 100
+        dialect: org.hibernate.dialect.MySQLDialect
 
 riot-api:
   key: ${API_KEY}
