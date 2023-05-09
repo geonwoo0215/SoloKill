@@ -1,5 +1,6 @@
 package com.geonwoo.solokill.global.client.feign.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class FeignApiClientService implements ApiClientService {
 	@Transactional
 	public void getMatchInfoByPuuid(String puuid) {
 		List<String> matchIds = riotMatchOpenFeign.getMatchId(puuid, GAME_TYPE, GAME_COUNT);
-
+		List<MatchRecord> matchRecordList = new ArrayList<>();
 		matchIds.forEach(matchId -> {
 			if (!matchInfoRepository.existsById(matchId)) {
 				MatchInfo matchInfo = new MatchInfo(matchId);
@@ -68,11 +69,12 @@ public class FeignApiClientService implements ApiClientService {
 							);
 							matchRecord.addSummoner(summoner);
 							matchRecord.addMatch(matchInfo);
-							matchRecordRepository.save(matchRecord);
+							matchRecordList.add(matchRecord);
 						}
 					}
 				);
 			}
 		});
+		matchRecordRepository.saveAll(matchRecordList);
 	}
 }
