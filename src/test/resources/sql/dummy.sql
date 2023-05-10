@@ -1,7 +1,7 @@
-insert into summoner (summoner_id, puuid, name, profile_icon_id, summoner_level)
+insert into summoner (id, puuid, name, profile_icon_id, summoner_level)
 values ('summoner_id', 'puuid', '리거누', 1234, 344);
 
-insert into match_info(match_id)
+insert into match_info(id)
 values ('matchId');
 
 insert into match_record (team_id, summoner_id, team_position, champion_id, champion_name, solo_kills,

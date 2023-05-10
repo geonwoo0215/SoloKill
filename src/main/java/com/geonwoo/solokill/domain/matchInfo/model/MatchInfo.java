@@ -8,8 +8,6 @@ import org.springframework.data.domain.Persistable;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PostLoad;
@@ -22,23 +20,38 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MatchInfo {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	private String matchId;
+public class MatchInfo implements Persistable<String> {
 
 	@OneToMany(mappedBy = "matchInfo", orphanRemoval = true)
 	private final List<MatchRecord> matchRecords = new ArrayList<>();
 
-	public MatchInfo(String matchId) {
-		this.matchId = matchId;
+	@Id
+	private String id;
+
+	public MatchInfo(String id) {
+		this.id = id;
 	}
 
 	public void addMatchRecord(MatchRecord matchRecords) {
 		this.matchRecords.add(matchRecords);
 	}
 
+	@Transient
+	private boolean isNew = true;
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public boolean isNew() {
+		return isNew;
+	}
+
+	@PrePersist
+	@PostLoad
+	void markNotNew() {
+		this.isNew = false;
+	}
 }
