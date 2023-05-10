@@ -41,7 +41,7 @@ public class MatchRecordJdbcRepository {
 					ps.setInt(13, matchRecord.getDeaths());
 					ps.setInt(14, matchRecord.getAssists());
 					ps.setBoolean(15, matchRecord.getWin());
-					ps.setString(16, matchRecord.getMatchInfo().getMatchId());
+					ps.setString(16, matchRecord.getMatchInfo().getMatchInfoId());
 				}
 
 				@Override

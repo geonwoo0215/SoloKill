@@ -7,6 +7,6 @@ import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
 
 public interface MatchInfoRepository extends JpaRepository<MatchInfo, Long> {
 
-	boolean existsByMatchId(@Param("matchId") String matchId);
+	boolean existsByMatchInfoId(@Param("matchInfoId") String matchInfoId);
 
 }
