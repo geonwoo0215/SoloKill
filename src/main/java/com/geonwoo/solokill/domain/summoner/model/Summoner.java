@@ -2,18 +2,19 @@ package com.geonwoo.solokill.domain.summoner.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import org.springframework.data.domain.Persistable;
 
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostLoad;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,14 +24,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "summoner", indexes = @Index(name = "idx_puuid", unique = true, columnList = "puuid"))
-public class Summoner {
+public class Summoner implements Persistable<String> {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Column(name = "summoner_id")
-	private String summonerId;
+	private String id;
 
 	private String puuid;
 
@@ -44,31 +41,35 @@ public class Summoner {
 	private List<MatchRecord> match = new ArrayList<>();
 
 	@Builder
-	protected Summoner(String summonerId, String puuid, String name, Integer profileIconId, Integer summonerLevel) {
-		this.summonerId = summonerId;
+	protected Summoner(String id, String puuid, String name, Integer profileIconId, Integer summonerLevel) {
+		this.id = id;
 		this.puuid = puuid;
 		this.name = name;
 		this.profileIconId = profileIconId;
 		this.summonerLevel = summonerLevel;
 	}
 
+	@Transient
+	private boolean isNew = true;
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public boolean isNew() {
+		return isNew;
+	}
+
+	@PrePersist
+	@PostLoad
+	void markNotNew() {
+		this.isNew = false;
+	}
+
 	public void addMatchRecord(MatchRecord matchRecord) {
 		this.match.add(matchRecord);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Summoner summoner = (Summoner)o;
-		return Objects.equals(getSummonerId(), summoner.getSummonerId()) && Objects.equals(getPuuid(),
-			summoner.getPuuid());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getSummonerId(), getPuuid());
-	}
 }

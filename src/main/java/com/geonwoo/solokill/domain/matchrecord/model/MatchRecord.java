@@ -7,13 +7,9 @@ import org.springframework.data.domain.Persistable;
 import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
@@ -30,21 +26,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MatchRecord implements Persistable<MatchRecordPk> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Embedded
+	@EmbeddedId
 	private MatchRecordPk matchRecordPk;
 
 	@MapsId("summonerId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "summoner_id", referencedColumnName = "summoner_id")
+	@JoinColumn(name = "summoner_id")
 	private Summoner summoner;
 
 	@MapsId("matchInfoId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "match_info_id", referencedColumnName = "match_info_id")
+	@JoinColumn(name = "match_info_id")
 	private MatchInfo matchInfo;
 
 	private Integer teamId;

@@ -1,25 +1,21 @@
 package com.geonwoo.solokill.global.client.feign.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
-import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoJdbcRepository;
-import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
 import com.geonwoo.solokill.domain.matchrecord.converter.MatchRecordConverter;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
-import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordJdbcRepository;
+import com.geonwoo.solokill.domain.matchrecord.model.MatchRecordPk;
+import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
-import com.geonwoo.solokill.domain.summoner.repository.SummonerJdbcRepository;
 import com.geonwoo.solokill.domain.summoner.repository.SummonerRepository;
 import com.geonwoo.solokill.global.client.feign.feignclient.RiotMatchOpenFeign;
 import com.geonwoo.solokill.global.client.feign.feignclient.RiotSummonerOpenFeign;
@@ -38,16 +34,14 @@ public class FeignApiClientService implements ApiClientService {
 	private final RiotMatchOpenFeign riotMatchOpenFeign;
 	private final MatchInfoRepository matchInfoRepository;
 	private final MatchRecordRepository matchRecordRepository;
-	private final MatchRecordJdbcRepository matchRecordJdbcRepository;
 	private final SummonerRepository summonerRepository;
-	private final SummonerJdbcRepository summonerJdbcRepository;
-	private final MatchInfoJdbcRepository matchInfoJdbcRepository;
 
 	@Override
 	@Transactional
 	public SummonerInfoResponse getSummonerInfoByName(String name) {
 		SummonerInfoResponse summonerInfoResponse = riotSummonerOpenFeign.getSummonerInfoByName(name);
 		Summoner summoner = SummonerConverter.toSummoner(summonerInfoResponse);
+		summonerRepository.save(summoner);
 		return summonerInfoResponse;
 	}
 
@@ -56,18 +50,16 @@ public class FeignApiClientService implements ApiClientService {
 	public void getMatchInfoByPuuid(String puuid) {
 		List<String> matchIds = riotMatchOpenFeign.getMatchId(puuid, GAME_TYPE, GAME_COUNT);
 		List<MatchRecord> matchRecordList = new ArrayList<>();
-		Set<Summoner> summonerSet = new HashSet<>();
-		List<MatchInfo> matchInfoList = new ArrayList<>();
 		matchIds.forEach(matchId -> {
-			if (!matchInfoRepository.existsByMatchInfoId(matchId)) {
+			if (!matchInfoRepository.existsById(matchId)) {
 				MatchInfo matchInfo = new MatchInfo(matchId);
 				MatchResponse matchResponse = riotMatchOpenFeign.getMatchByMatchId(matchId);
 
 				matchResponse.info().participants().forEach(participantResponse ->
 					{
-						MatchRecord matchRecord = MatchRecordConverter.toMatchRecord(participantResponse, matchId);
-						Summoner summoner = summonerRepository.findBySummonerId(participantResponse.summonerId())
-							.orElseGet(() ->
+						if (!matchRecordRepository.existsById(new MatchRecordPk(participantResponse.summonerId(), matchId))) {
+							MatchRecord matchRecord = MatchRecordConverter.toMatchRecord(participantResponse, matchId);
+							Summoner summoner = summonerRepository.findById(participantResponse.summonerId()).orElseGet(()->
 								SummonerConverter.toSummoner(new SummonerInfoResponse(
 									participantResponse.summonerId(),
 									participantResponse.puuid(),
@@ -75,17 +67,14 @@ public class FeignApiClientService implements ApiClientService {
 									participantResponse.profileIcon(),
 									participantResponse.summonerLevel()))
 							);
-						matchRecord.addSummoner(summoner);
-						matchRecord.addMatch(matchInfo);
-						matchInfoList.add(matchInfo);
-						summonerSet.add(summoner);
-						matchRecordList.add(matchRecord);
+							matchRecord.addSummoner(summoner);
+							matchRecord.addMatch(matchInfo);
+							matchRecordList.add(matchRecord);
+						}
 					}
 				);
 			}
 		});
-		matchInfoJdbcRepository.insertMatchInfoList(matchInfoList);
-		summonerJdbcRepository.insertSummonerList(summonerSet.stream().toList());
-		matchRecordJdbcRepository.insertMatchRecordList(matchRecordList);
+		matchRecordRepository.saveAll(matchRecordList);
 	}
 }

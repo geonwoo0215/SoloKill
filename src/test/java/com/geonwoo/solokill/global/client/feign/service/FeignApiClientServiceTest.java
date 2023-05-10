@@ -14,18 +14,15 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoJdbcRepository;
 import com.geonwoo.solokill.domain.matchrecord.dto.ChallengesResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchInfo;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.ParticipantResponse;
 import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
-import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordJdbcRepository;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
-import com.geonwoo.solokill.domain.summoner.repository.SummonerJdbcRepository;
 import com.geonwoo.solokill.domain.summoner.repository.SummonerRepository;
 import com.geonwoo.solokill.global.client.feign.feignclient.RiotMatchOpenFeign;
 import com.geonwoo.solokill.global.client.feign.feignclient.RiotSummonerOpenFeign;
@@ -51,15 +48,6 @@ class FeignApiClientServiceTest {
 	@Mock
 	private MatchRecordRepository matchRecordRepository;
 
-	@Mock
-	private MatchInfoJdbcRepository matchInfoJdbcRepository;
-
-	@Mock
-	private SummonerJdbcRepository summonerJdbcRepository;
-
-	@Mock
-	private MatchRecordJdbcRepository matchRecordJdbcRepository;
-
 	@Test
 	@DisplayName("소환사 이름으로 소환사 정보를 호출한다.")
 	public void getSummonerInfoByName() {
@@ -67,7 +55,7 @@ class FeignApiClientServiceTest {
 		//given
 		String name = "리거누";
 		SummonerInfoResponse summonerInfoResponse = SummonerInfoResponse.builder()
-			.id("summonerId")
+			.id("id")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
@@ -75,7 +63,7 @@ class FeignApiClientServiceTest {
 			.build();
 
 		Summoner summoner = Summoner.builder()
-			.summonerId("summonerId")
+			.id("id")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(1234)
@@ -85,6 +73,7 @@ class FeignApiClientServiceTest {
 		MockedStatic<SummonerConverter> summonerConverterMockedStatic = mockStatic(SummonerConverter.class);
 		when(riotSummonerOpenFeign.getSummonerInfoByName(name)).thenReturn(summonerInfoResponse);
 		when(SummonerConverter.toSummoner(summonerInfoResponse)).thenReturn(summoner);
+		when(summonerRepository.save(summoner)).thenReturn(summoner);
 
 		//when
 		SummonerInfoResponse summonerInfoByName = feignApiClientService.getSummonerInfoByName(name);
@@ -97,6 +86,7 @@ class FeignApiClientServiceTest {
 			.hasFieldOrPropertyWithValue("summonerLevel", summonerInfoResponse.summonerLevel());
 
 		verify(riotSummonerOpenFeign).getSummonerInfoByName(name);
+		verify(summonerRepository).save(summoner);
 		summonerConverterMockedStatic.verify(() -> SummonerConverter.toSummoner(summonerInfoResponse), times(1));
 	}
 
@@ -126,10 +116,12 @@ class FeignApiClientServiceTest {
 
 		when(riotMatchOpenFeign.getMatchId(puuid, gameType, gameCount)).thenReturn(matchIds);
 		when(riotMatchOpenFeign.getMatchByMatchId(matchId)).thenReturn(matchResponse);
+		when(matchInfoRepository.existsById(matchId)).thenReturn(false);
 
 		feignApiClientService.getMatchInfoByPuuid(puuid);
 
 		verify(riotMatchOpenFeign).getMatchId(puuid, gameType, gameCount);
 		verify(riotMatchOpenFeign).getMatchByMatchId(matchId);
+		verify(matchInfoRepository).existsById(matchId);
 	}
 }

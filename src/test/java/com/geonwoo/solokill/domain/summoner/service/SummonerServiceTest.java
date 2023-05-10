@@ -37,7 +37,7 @@ class SummonerServiceTest {
 		//given
 		String name = "리거누";
 		Summoner summoner = Summoner.builder()
-			.summonerId("summonerId")
+			.id("id")
 			.puuid("puuid")
 			.name("리거누")
 			.profileIconId(123)
@@ -53,7 +53,7 @@ class SummonerServiceTest {
 		//then
 		assertNotNull(summonerInfoByName);
 		assertThat(summonerInfoByName)
-			.hasFieldOrPropertyWithValue("id", summoner.getSummonerId())
+			.hasFieldOrPropertyWithValue("id", summoner.getId())
 			.hasFieldOrPropertyWithValue("puuid", summoner.getPuuid())
 			.hasFieldOrPropertyWithValue("profileIconId", summoner.getProfileIconId())
 			.hasFieldOrPropertyWithValue("summonerLevel", summoner.getSummonerLevel());
