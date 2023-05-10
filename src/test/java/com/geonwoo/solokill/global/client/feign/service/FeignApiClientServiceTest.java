@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoJdbcRepository;
 import com.geonwoo.solokill.domain.matchrecord.dto.ChallengesResponse;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchInfo;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
@@ -25,7 +24,6 @@ import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
 import com.geonwoo.solokill.domain.summoner.model.Summoner;
-import com.geonwoo.solokill.domain.summoner.repository.SummonerJdbcRepository;
 import com.geonwoo.solokill.domain.summoner.repository.SummonerRepository;
 import com.geonwoo.solokill.global.client.feign.feignclient.RiotMatchOpenFeign;
 import com.geonwoo.solokill.global.client.feign.feignclient.RiotSummonerOpenFeign;
@@ -50,12 +48,6 @@ class FeignApiClientServiceTest {
 
 	@Mock
 	private MatchRecordRepository matchRecordRepository;
-
-	@Mock
-	private MatchInfoJdbcRepository matchInfoJdbcRepository;
-
-	@Mock
-	private SummonerJdbcRepository summonerJdbcRepository;
 
 	@Mock
 	private MatchRecordJdbcRepository matchRecordJdbcRepository;
@@ -85,6 +77,7 @@ class FeignApiClientServiceTest {
 		MockedStatic<SummonerConverter> summonerConverterMockedStatic = mockStatic(SummonerConverter.class);
 		when(riotSummonerOpenFeign.getSummonerInfoByName(name)).thenReturn(summonerInfoResponse);
 		when(SummonerConverter.toSummoner(summonerInfoResponse)).thenReturn(summoner);
+		when(summonerRepository.save(summoner)).thenReturn(summoner);
 
 		//when
 		SummonerInfoResponse summonerInfoByName = feignApiClientService.getSummonerInfoByName(name);
@@ -97,6 +90,7 @@ class FeignApiClientServiceTest {
 			.hasFieldOrPropertyWithValue("summonerLevel", summonerInfoResponse.summonerLevel());
 
 		verify(riotSummonerOpenFeign).getSummonerInfoByName(name);
+		verify(summonerRepository).save(summoner);
 		summonerConverterMockedStatic.verify(() -> SummonerConverter.toSummoner(summonerInfoResponse), times(1));
 	}
 

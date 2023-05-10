@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,7 +24,6 @@ class MatchRecordControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	@Transactional
 	@DisplayName("[성공] 사용자 이름으로 사용자가 최근 사용한 챔피언 이름을 반환한다.")
 	void getSummonerInfo() throws Exception {
 
