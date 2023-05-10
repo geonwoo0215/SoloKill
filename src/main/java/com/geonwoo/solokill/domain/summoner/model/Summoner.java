@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +27,6 @@ public class Summoner {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "summoner_id")
 	private String summonerId;
 
 	private String puuid;

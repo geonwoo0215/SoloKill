@@ -7,7 +7,6 @@ import org.springframework.data.domain.Persistable;
 
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +28,6 @@ public class MatchInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "match_info_id")
 	private String matchInfoId;
 
 	@OneToMany(mappedBy = "matchInfo", orphanRemoval = true)
