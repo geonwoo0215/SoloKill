@@ -52,7 +52,7 @@ public class FeignApiClientService implements ApiClientService {
 		List<String> matchIds = riotMatchOpenFeign.getMatchId(puuid, GAME_TYPE, GAME_COUNT);
 		List<MatchRecord> matchRecordList = new ArrayList<>();
 		matchIds.forEach(matchId -> {
-			if (!matchInfoRepository.existsByMatchInfoId(matchId)) {
+			if (!matchInfoRepository.existsByMatchId(matchId)) {
 				MatchInfo matchInfo = new MatchInfo(matchId);
 				MatchResponse matchResponse = riotMatchOpenFeign.getMatchByMatchId(matchId);
 

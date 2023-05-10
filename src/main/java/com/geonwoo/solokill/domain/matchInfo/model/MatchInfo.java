@@ -28,13 +28,13 @@ public class MatchInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String matchInfoId;
+	private String matchId;
 
 	@OneToMany(mappedBy = "matchInfo", orphanRemoval = true)
 	private final List<MatchRecord> matchRecords = new ArrayList<>();
 
-	public MatchInfo(String matchInfoId) {
-		this.matchInfoId = matchInfoId;
+	public MatchInfo(String matchId) {
+		this.matchId = matchId;
 	}
 
 	public void addMatchRecord(MatchRecord matchRecords) {

@@ -44,7 +44,7 @@ public class MatchRecord implements Persistable<MatchRecordPk> {
 
 	@MapsId("matchInfoId")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "match_info_id")
+	@JoinColumn(name = "match_id")
 	private MatchInfo matchInfo;
 
 	private Integer teamId;
