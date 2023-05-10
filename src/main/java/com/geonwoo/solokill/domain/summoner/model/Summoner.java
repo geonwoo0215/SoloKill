@@ -2,6 +2,7 @@ package com.geonwoo.solokill.domain.summoner.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 
@@ -55,4 +56,19 @@ public class Summoner {
 		this.match.add(matchRecord);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Summoner summoner = (Summoner)o;
+		return Objects.equals(getSummonerId(), summoner.getSummonerId()) && Objects.equals(getPuuid(),
+			summoner.getPuuid());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getSummonerId(), getPuuid());
+	}
 }
