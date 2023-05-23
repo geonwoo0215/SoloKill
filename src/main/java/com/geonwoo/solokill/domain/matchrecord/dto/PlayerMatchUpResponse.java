@@ -23,10 +23,10 @@ public record PlayerMatchUpResponse(
 	Double opponentKills,
 	Double opponentDeaths,
 	Double opponentAssists,
-	Integer win,
-	Integer lose
+	Long win,
+	Long lose
 ) {
-	@Builder
+
 	public PlayerMatchUpResponse(String championName, Double soloKills, Double visionScore,
 		Double visionWardsBoughtInGame,
 		Double totalMinionsKilled, Double totalDamageDealtToChampions, Double goldEarned, Double kills,
@@ -34,7 +34,7 @@ public record PlayerMatchUpResponse(
 		Double opponentVisionScore,
 		Double opponentVisionWardsBoughtInGame, Double opponentTotalMinionsKilled,
 		Double opponentTotalDamageDealtToChampions, Double opponentGoldEarned,
-		Double opponentKills, Double opponentDeaths, Double opponentAssists, Integer win, Integer lose) {
+		Double opponentKills, Double opponentDeaths, Double opponentAssists, Long win, Long lose) {
 		this.championName = championName;
 		this.soloKills = soloKills;
 		this.visionScore = visionScore;

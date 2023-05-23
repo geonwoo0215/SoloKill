@@ -28,7 +28,7 @@ class MatchRecordRepositoryTest {
 	void findChampionNameByPuuid() {
 
 		//given
-		String id = "summoner_id";
+		String id = "swsVftNdzs0OKJqJpbKwEtICk9_5oImBLO2Rdms-Dhzkcg";
 
 		//when
 		Set<String> championNameById = matchRecordRepository.findChampionNameBySummonerId(id);
