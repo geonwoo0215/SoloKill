@@ -23,7 +23,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "summoner", indexes = @Index(name = "idx_puuid", unique = true, columnList = "puuid"))
+@Table(name = "summoner", indexes = {
+	@Index(name = "idx_puuid", unique = true, columnList = "puuid"),
+	@Index(name = "idx_name", unique = true, columnList = "name")
+})
 public class Summoner implements Persistable<String> {
 
 	@Id
