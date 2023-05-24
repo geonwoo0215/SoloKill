@@ -13,14 +13,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class MatchRecordControllerTest {
-
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	@Autowired
 	private MockMvc mockMvc;
