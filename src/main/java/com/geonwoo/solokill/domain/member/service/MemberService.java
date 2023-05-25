@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geonwoo.solokill.domain.member.converter.MemberConverter;
+import com.geonwoo.solokill.domain.member.dto.request.AuthenticationDTO;
+import com.geonwoo.solokill.domain.member.dto.request.MemberLoginRequest;
 import com.geonwoo.solokill.domain.member.dto.request.MemberSignUpRequest;
 import com.geonwoo.solokill.domain.member.model.Member;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
@@ -26,6 +28,13 @@ public class MemberService {
 		String encryptPassword = passwordEncoder.encrypt(memberSignUpRequest.password());
 		Member member = memberRepository.save(MemberConverter.toMember(memberSignUpRequest, encryptPassword));
 		return member.getId();
+	}
+
+	public AuthenticationDTO login(MemberLoginRequest memberLoginRequest) {
+		return memberRepository.findByLoginEmail(memberLoginRequest.loginEmail())
+			.filter(member -> passwordEncoder.isMatch(memberLoginRequest.password(), member.getPassword()))
+			.map(member -> new AuthenticationDTO(member.getId(), member.getMemberAuthority()))
+			.orElseThrow(IllegalArgumentException::new);
 	}
 
 	private void validateDuplicateEmail(String loginEmail) {
