@@ -24,7 +24,7 @@ class MatchRecordRepositoryTest {
 
 	@Test
 	@Sql(scripts = {"/sql/dummy.sql"})
-	@DisplayName("사용자의 d로 경기에서 사용한 챔피언의 이름을 조회한다.")
+	@DisplayName("사용자의 id로 경기에서 사용한 챔피언의 이름을 조회한다.")
 	void findChampionNameByPuuid() {
 
 		//given
