@@ -31,18 +31,20 @@ jobs:
 
       # 테스트를 진행하기 위해 액션 서버에 docker로 redis 띄우기
       - name: Create Redis Docker Container
-        uses: shogo82148/actions-setup-redis@v1
-        with:
-          redis-version: '6.x'
-          run: redis-cli ping
+        run: sudo docker run -d -p 6379:6379 --name solokill-redis redis
 
-      # 빌드시 캐시 적용
-      - name: Cache Gradle Packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle
-      # 빌드
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Run Your GitHub Action
+        env:
+          REDIS_HOST: solokill-redis
+          REDIS_PORT: 6379
+            
+            # 빌드시 캐시 적용
+            - name: Cache Gradle Packages
+              uses: actions/cache@v3
+              with:
+                path: ~/.gradle/caches
+                key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
+                restore-keys: ${{ runner.os }}-gradle
+            # 빌드
+            - name: Build with Gradle
+              run: ./gradlew build
