@@ -31,7 +31,10 @@ jobs:
 
       # 테스트를 진행하기 위해 액션 서버에 docker로 redis 띄우기
       - name: Create Redis Docker Container
-        run: sudo docker run -d -p 6379:6379 --name solokill-redis redis
+        uses: shogo82148/actions-setup-redis@v1
+        with:
+          redis-version: '6.x'
+          run: redis-cli ping
 
       # 빌드시 캐시 적용
       - name: Cache Gradle Packages
