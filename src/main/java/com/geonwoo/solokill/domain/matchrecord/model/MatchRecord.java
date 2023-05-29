@@ -1,7 +1,5 @@
 package com.geonwoo.solokill.domain.matchrecord.model;
 
-import java.util.Objects;
-
 import org.springframework.data.domain.Persistable;
 
 import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
@@ -66,6 +64,8 @@ public class MatchRecord implements Persistable<MatchRecordPk> {
 	private Integer assists;
 
 	private Boolean win;
+	@Transient
+	private boolean isNew = true;
 
 	@Builder
 	public MatchRecord(String summonerId, String matchInfoId, Integer teamId, String teamPosition, Integer championId,
@@ -105,17 +105,6 @@ public class MatchRecord implements Persistable<MatchRecordPk> {
 		this.matchInfo = matchInfo;
 		matchInfo.addMatchRecord(this);
 	}
-
-	public boolean isSameTeamPosition(String teamPosition) {
-		return Objects.equals(this.teamPosition, teamPosition);
-	}
-
-	public boolean isSameTeamId(Integer teamId) {
-		return Objects.equals(this.teamId, teamId);
-	}
-
-	@Transient
-	private boolean isNew = true;
 
 	@Override
 	public MatchRecordPk getId() {

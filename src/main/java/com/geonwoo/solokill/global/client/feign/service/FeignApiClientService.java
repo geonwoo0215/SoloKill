@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.geonwoo.solokill.domain.matchInfo.model.MatchInfo;
+import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
 import com.geonwoo.solokill.domain.matchrecord.converter.MatchRecordConverter;
 import com.geonwoo.solokill.domain.matchrecord.dto.MatchResponse;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecord;
 import com.geonwoo.solokill.domain.matchrecord.model.MatchRecordPk;
-import com.geonwoo.solokill.domain.matchInfo.repository.MatchInfoRepository;
 import com.geonwoo.solokill.domain.matchrecord.repository.MatchRecordRepository;
 import com.geonwoo.solokill.domain.summoner.converter.SummonerConverter;
 import com.geonwoo.solokill.domain.summoner.dto.SummonerInfoResponse;
@@ -57,24 +57,26 @@ public class FeignApiClientService implements ApiClientService {
 
 				matchResponse.info().participants().forEach(participantResponse ->
 					{
-						if (!matchRecordRepository.existsById(new MatchRecordPk(participantResponse.summonerId(), matchId))) {
+						if (!matchRecordRepository.existsById(
+							new MatchRecordPk(participantResponse.summonerId(), matchId))) {
 							MatchRecord matchRecord = MatchRecordConverter.toMatchRecord(participantResponse, matchId);
-							Summoner summoner = summonerRepository.findById(participantResponse.summonerId()).orElseGet(()->
-								SummonerConverter.toSummoner(new SummonerInfoResponse(
-									participantResponse.summonerId(),
-									participantResponse.puuid(),
-									participantResponse.summonerName(),
-									participantResponse.profileIcon(),
-									participantResponse.summonerLevel()))
-							);
+							Summoner summoner = summonerRepository.findById(participantResponse.summonerId())
+								.orElseGet(() ->
+									SummonerConverter.toSummoner(new SummonerInfoResponse(
+										participantResponse.summonerId(),
+										participantResponse.puuid(),
+										participantResponse.summonerName(),
+										participantResponse.profileIcon(),
+										participantResponse.summonerLevel()))
+								);
 							matchRecord.addSummoner(summoner);
 							matchRecord.addMatch(matchInfo);
 							matchRecordList.add(matchRecord);
+							matchRecordRepository.saveAll(matchRecordList);
 						}
 					}
 				);
 			}
 		});
-		matchRecordRepository.saveAll(matchRecordList);
 	}
 }

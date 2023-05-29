@@ -3,7 +3,6 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${TEST_DATASOURCE_URL}
@@ -23,6 +22,10 @@ spring:
         jdbc:
           batch_size: 100
         dialect: org.hibernate.dialect.MySQLDialect
+
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 riot-api:
   key: ${API_KEY}

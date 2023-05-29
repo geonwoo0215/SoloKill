@@ -15,6 +15,14 @@ services:
       - ./mysqldata:/var/lib/mysql
     restart: always
 
+  redis:
+    container_name: solokill-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+
   app:
     container_name: solokill-app
     image: ${DOCKER_USERNAME}/${DOCKER_REPO}
@@ -22,9 +30,12 @@ services:
       - "8080:8080"
     restart: always
     depends_on:
+      - redis
       - db
     environment:
       DATASOURCE_URL: ${DATASOURCE_URL}
       DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
       DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
       API_KEY: ${API_KEY}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}

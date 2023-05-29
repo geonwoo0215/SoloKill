@@ -22,6 +22,10 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
 riot-api:
   key: ${API_KEY}
   url:
