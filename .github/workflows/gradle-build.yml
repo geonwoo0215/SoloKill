@@ -29,6 +29,10 @@ jobs:
       - name: Create Mysql Docker Container
         run: sudo docker run -d -p 3305:3306 --env MYSQL_DATABASE="${{ secrets.TEST_DATABASE }}" --env MYSQL_ROOT_PASSWORD="${{ secrets.TEST_DATASOURCE_PASSWORD }}" mysql:8.0.31
 
+      # 테스트를 진행하기 위해 액션 서버에 docker로 redis 띄우기
+      - name: Create Redis Docker Container
+        run: sudo docker run -d -p 6379:6379 --env REDIS_HOST="${{ secrets.REDIS_HOST }}" --env REDIS_PORT="${{ secrets.REDIS_PORT }}" redis:latest
+
       # 빌드시 캐시 적용
       - name: Cache Gradle Packages
         uses: actions/cache@v3
