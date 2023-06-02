@@ -1,7 +1,5 @@
 package com.geonwoo.solokill.domain.member.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,14 +38,14 @@ class MemberServiceTest {
 		String encryptPassword = BCrypt.hashpw(memberSignUpRequest.password(), BCrypt.gensalt());
 		Long memberId = 1L;
 
-		Mockito.when(memberRepository.existsByLoginEmail(memberSignUpRequest.loginEmail())).thenReturn(false);
+		Mockito.when(memberRepository.existsByEmail(memberSignUpRequest.loginEmail())).thenReturn(false);
 		Mockito.when(memberRepository.existsByNickname(memberSignUpRequest.nickname())).thenReturn(false);
 		Mockito.when(passwordEncoder.encrypt(memberSignUpRequest.password())).thenReturn(encryptPassword);
 		Mockito.when(memberRepository.save(Mockito.any(Member.class))).thenReturn(member);
 		Mockito.when(member.getId()).thenReturn(memberId);
 		Long saveMemberId = memberService.singUp(memberSignUpRequest);
 
-		Mockito.verify(memberRepository).existsByLoginEmail(memberSignUpRequest.loginEmail());
+		Mockito.verify(memberRepository).existsByEmail(memberSignUpRequest.loginEmail());
 		Mockito.verify(memberRepository).existsByNickname(memberSignUpRequest.nickname());
 		Mockito.verify(passwordEncoder).encrypt(memberSignUpRequest.password());
 		Mockito.verify(memberRepository).save(Mockito.any(Member.class));

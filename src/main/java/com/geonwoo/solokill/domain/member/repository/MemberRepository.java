@@ -9,10 +9,10 @@ import com.geonwoo.solokill.domain.member.model.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	boolean existsByLoginEmail(@Param("loginEmail") String loginEmail);
+	boolean existsByEmail(@Param("loginEmail") String loginEmail);
 
 	boolean existsByNickname(@Param("nickname") String nickname);
 
-	Optional<Member> findByLoginEmail(String email);
+	Optional<Member> findByEmail(String email);
 
 }

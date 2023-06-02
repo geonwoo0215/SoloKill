@@ -10,6 +10,6 @@ public class MemberConverter {
 
 	public static Member toMember(MemberSignUpRequest memberSignUpRequest, String encryptPassword) {
 
-		return new Member(memberSignUpRequest.loginEmail(), encryptPassword, memberSignUpRequest.nickname());
+		return new Member(memberSignUpRequest.email(), encryptPassword, memberSignUpRequest.nickname());
 	}
 }
