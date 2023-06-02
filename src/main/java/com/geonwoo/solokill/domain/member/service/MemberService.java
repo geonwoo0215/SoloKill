@@ -22,7 +22,7 @@ public class MemberService {
 
 	@Transactional
 	public Long singUp(MemberSignUpRequest memberSignUpRequest) {
-		validateDuplicateEmail(memberSignUpRequest.loginEmail());
+		validateDuplicateEmail(memberSignUpRequest.email());
 		validateDuplicateNickname(memberSignUpRequest.nickname());
 
 		String encryptPassword = passwordEncoder.encrypt(memberSignUpRequest.password());
@@ -31,14 +31,14 @@ public class MemberService {
 	}
 
 	public AuthenticationDTO login(MemberLoginRequest memberLoginRequest) {
-		return memberRepository.findByLoginEmail(memberLoginRequest.loginEmail())
+		return memberRepository.findByEmail(memberLoginRequest.email())
 			.filter(member -> passwordEncoder.isMatch(memberLoginRequest.password(), member.getPassword()))
 			.map(member -> new AuthenticationDTO(member.getId(), member.getMemberAuthority()))
 			.orElseThrow(IllegalArgumentException::new);
 	}
 
-	private void validateDuplicateEmail(String loginEmail) {
-		if (memberRepository.existsByLoginEmail(loginEmail)) {
+	private void validateDuplicateEmail(String email) {
+		if (memberRepository.existsByEmail(email)) {
 			throw new IllegalArgumentException("중복된 아이디입니다.");
 		}
 	}

@@ -19,18 +19,25 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String loginEmail;
+	private String email;
 
 	private String password;
 
 	private String nickname;
 
+	private Long point;
+
 	private MemberAuthority memberAuthority;
 
-	public Member(String loginEmail, String password, String nickname) {
-		this.loginEmail = loginEmail;
+	public Member(String email, String password, String nickname) {
+		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
+		this.point = 0L;
 		this.memberAuthority = MemberAuthority.USER;
+	}
+
+	public void chargePoint(Long chargeAmount) {
+		this.point += chargeAmount;
 	}
 }
