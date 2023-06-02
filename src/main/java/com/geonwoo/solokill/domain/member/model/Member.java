@@ -25,12 +25,19 @@ public class Member {
 
 	private String nickname;
 
+	private Long point;
+
 	private MemberAuthority memberAuthority;
 
 	public Member(String email, String password, String nickname) {
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
+		this.point = 0L;
 		this.memberAuthority = MemberAuthority.USER;
+	}
+
+	public void chargePoint(Long chargeAmount) {
+		this.point += chargeAmount;
 	}
 }

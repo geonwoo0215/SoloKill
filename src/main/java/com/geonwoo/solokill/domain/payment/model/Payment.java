@@ -10,8 +10,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class Payment {
 
 	@Id
@@ -28,5 +32,6 @@ public class Payment {
 	public Payment(Member member, BigDecimal value) {
 		this.member = member;
 		this.value = value;
+		this.createAt = LocalDateTime.now();
 	}
 }
