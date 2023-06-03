@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.global.annotation;
+package com.geonwoo.solokill.global.auth.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)
-public @interface CurrentUser {
+public @interface LoginMember {
 }
