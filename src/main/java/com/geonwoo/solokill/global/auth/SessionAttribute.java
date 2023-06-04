@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.global.security;
+package com.geonwoo.solokill.global.auth;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,9 @@
 package com.geonwoo.solokill.domain.member.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,11 +42,11 @@ class MemberControllerTest {
 
 		String json = objectMapper.writeValueAsString(memberSignUpRequest);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/members")
+		mockMvc.perform(post("/members")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
-			.andExpect(MockMvcResultMatchers.status().isCreated())
-			.andDo(MockMvcResultHandlers.print());
+			.andExpect(status().isCreated())
+			.andDo(print());
 
 	}
 
@@ -59,11 +60,11 @@ class MemberControllerTest {
 		memberRepository.save(member);
 		String json = objectMapper.writeValueAsString(memberLoginRequest);
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/members/login")
+		mockMvc.perform(post("/members/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
-			.andExpect(MockMvcResultMatchers.status().isNoContent())
-			.andDo(MockMvcResultHandlers.print());
+			.andExpect(status().isNoContent())
+			.andDo(print());
 
 	}
 }

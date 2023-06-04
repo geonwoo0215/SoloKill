@@ -1,4 +1,4 @@
-package com.geonwoo.solokill.global.security;
+package com.geonwoo.solokill.global.auth.annotation;
 
 import static com.geonwoo.solokill.domain.member.model.vo.MemberAuthority.*;
 

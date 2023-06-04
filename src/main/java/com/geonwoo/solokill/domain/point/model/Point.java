@@ -1,10 +1,11 @@
-package com.geonwoo.solokill.domain.payment.model;
+package com.geonwoo.solokill.domain.point.model;
 
 import java.time.LocalDateTime;
 
 import com.geonwoo.solokill.domain.member.model.Member;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,20 +16,20 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Payment {
+public class Point {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Member member;
 
 	private Long value;
 
 	private LocalDateTime createAt;
 
-	public Payment(Member member, Long value) {
+	public Point(Member member, Long value) {
 		this.member = member;
 		this.value = value;
 		this.createAt = LocalDateTime.now();

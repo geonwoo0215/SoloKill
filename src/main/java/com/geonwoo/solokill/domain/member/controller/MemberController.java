@@ -12,7 +12,7 @@ import com.geonwoo.solokill.domain.member.dto.request.AuthenticationDTO;
 import com.geonwoo.solokill.domain.member.dto.request.MemberLoginRequest;
 import com.geonwoo.solokill.domain.member.dto.request.MemberSignUpRequest;
 import com.geonwoo.solokill.domain.member.service.MemberService;
-import com.geonwoo.solokill.global.security.SessionAttribute;
+import com.geonwoo.solokill.global.auth.SessionAttribute;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -36,11 +36,11 @@ public class MemberController {
 		return ResponseEntity.created(URI.create(request.getRequestURI() + "/" + saveMemberId)).build();
 	}
 
-	@PostMapping(value = "/members/login",consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/members/login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> login(
 		@Valid @RequestBody MemberLoginRequest memberLoginRequest,
 		HttpServletRequest request
-	){
+	) {
 		AuthenticationDTO authenticationDTO = memberService.login(memberLoginRequest);
 
 		HttpSession session = request.getSession(true);

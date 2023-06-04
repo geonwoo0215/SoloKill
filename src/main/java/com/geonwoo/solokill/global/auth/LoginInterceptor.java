@@ -1,17 +1,19 @@
-package com.geonwoo.solokill.global.security;
+package com.geonwoo.solokill.global.auth;
 
-import static com.geonwoo.solokill.global.security.SessionAttribute.*;
+import static com.geonwoo.solokill.global.auth.SessionAttribute.*;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+@Configuration
 public class LoginInterceptor implements HandlerInterceptor {
 
 	@Override

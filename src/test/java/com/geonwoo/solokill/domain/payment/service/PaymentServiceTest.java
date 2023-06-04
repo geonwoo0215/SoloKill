@@ -3,9 +3,6 @@ package com.geonwoo.solokill.domain.payment.service;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.math.BigDecimal;
-import java.util.Optional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,19 +36,17 @@ class PaymentServiceTest {
 		//given
 		Member member = new Member("email", "password", "nickname");
 		memberRepository.save(member);
-		PayRequest payRequest = new PayRequest(new BigDecimal(1000));
+		PayRequest payRequest = new PayRequest(1000L);
 		Payment payment = new Payment(member, payRequest.amount());
 
-		when(memberRepository.findByEmail(member.getEmail())).thenReturn(Optional.of(member));
 		when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
 
 		//when
-		PayResponse pay = paymentService.pay(member.getEmail(), payRequest);
+		PayResponse pay = paymentService.pay(member, payRequest.amount());
 
 		//then
 		assertThat(pay)
 			.hasFieldOrPropertyWithValue("amount", payRequest.amount());
-		verify(memberRepository).findByEmail(member.getEmail());
 		verify(paymentRepository).save(any(Payment.class));
 	}
 }

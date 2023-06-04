@@ -7,6 +7,7 @@ import com.geonwoo.solokill.domain.member.converter.MemberConverter;
 import com.geonwoo.solokill.domain.member.dto.request.AuthenticationDTO;
 import com.geonwoo.solokill.domain.member.dto.request.MemberLoginRequest;
 import com.geonwoo.solokill.domain.member.dto.request.MemberSignUpRequest;
+import com.geonwoo.solokill.domain.member.dto.response.MemberDTO;
 import com.geonwoo.solokill.domain.member.model.Member;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
 
@@ -35,6 +36,11 @@ public class MemberService {
 			.filter(member -> passwordEncoder.isMatch(memberLoginRequest.password(), member.getPassword()))
 			.map(member -> new AuthenticationDTO(member.getId(), member.getMemberAuthority()))
 			.orElseThrow(IllegalArgumentException::new);
+	}
+
+	public MemberDTO getById(Long id) {
+		Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+		return MemberConverter.toMemberResponse(member);
 	}
 
 	private void validateDuplicateEmail(String email) {
