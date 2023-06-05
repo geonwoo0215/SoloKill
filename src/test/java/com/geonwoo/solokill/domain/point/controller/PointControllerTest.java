@@ -42,7 +42,7 @@ class PointControllerTest {
 		ChargeRequest chargeRequest = new ChargeRequest(1000L);
 		String json = objectMapper.writeValueAsString(chargeRequest);
 
-		Member member = new Member("email", "password", "nickname");
+		Member member = new Member("gw980215@naver.com", "password", "nickname");
 		memberRepository.save(member);
 
 		AuthenticationDTO authenticationDTO = new AuthenticationDTO(member.getId(), member.getMemberAuthority());
