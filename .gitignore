@@ -1,7 +1,7 @@
 HELP.md
 .gradle
 .env
-src.main.resources.firebase
+src/main/resources/firebase
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
