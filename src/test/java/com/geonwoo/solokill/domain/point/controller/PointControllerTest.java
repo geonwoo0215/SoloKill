@@ -39,7 +39,7 @@ class PointControllerTest {
 
 		MockHttpSession session = new MockHttpSession();
 
-		ChargeRequest chargeRequest = new ChargeRequest(1000L);
+		ChargeRequest chargeRequest = new ChargeRequest(1000L, "token");
 		String json = objectMapper.writeValueAsString(chargeRequest);
 
 		Member member = new Member("gw980215@naver.com", "password", "nickname");

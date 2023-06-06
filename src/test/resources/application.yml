@@ -50,3 +50,7 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+
+fcm:
+  certification: ${FCM_PATH}
