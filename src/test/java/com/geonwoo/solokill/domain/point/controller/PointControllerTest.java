@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,6 +20,8 @@ import com.geonwoo.solokill.domain.member.model.Member;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
 import com.geonwoo.solokill.domain.point.dto.ChargeRequest;
 import com.geonwoo.solokill.global.auth.SessionAttribute;
+import com.geonwoo.solokill.global.firebase.FCMInitializer;
+import com.geonwoo.solokill.global.firebase.service.FCMService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,6 +35,12 @@ class PointControllerTest {
 
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@MockBean
+	private FCMInitializer fcmInitializer;
+
+	@MockBean
+	private FCMService fcmService;
 
 	@Test
 	@DisplayName("[성공] 포인트 충전에 성공한다.")

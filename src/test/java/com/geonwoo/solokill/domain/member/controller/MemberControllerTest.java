@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,6 +20,8 @@ import com.geonwoo.solokill.domain.member.dto.request.MemberLoginRequest;
 import com.geonwoo.solokill.domain.member.dto.request.MemberSignUpRequest;
 import com.geonwoo.solokill.domain.member.model.Member;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
+import com.geonwoo.solokill.global.firebase.FCMInitializer;
+import com.geonwoo.solokill.global.firebase.service.FCMService;
 
 @Transactional
 @SpringBootTest
@@ -33,6 +36,12 @@ class MemberControllerTest {
 
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@MockBean
+	private FCMInitializer fcmInitializer;
+
+	@MockBean
+	private FCMService fcmService;
 
 	@Test
 	@DisplayName("[성공] 회원가입에 성공한다.")
