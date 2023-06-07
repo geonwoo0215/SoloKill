@@ -9,11 +9,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import com.geonwoo.solokill.domain.member.model.Member;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
 import com.geonwoo.solokill.domain.payment.dto.PayRequest;
 import com.geonwoo.solokill.domain.payment.dto.PayResponse;
+import com.geonwoo.solokill.domain.payment.dto.event.PushAlertEvent;
 import com.geonwoo.solokill.domain.payment.model.Payment;
 import com.geonwoo.solokill.domain.payment.repository.PaymentRepository;
 import com.geonwoo.solokill.global.email.EmailService;
@@ -34,6 +36,9 @@ class PaymentServiceTest {
 	@Mock
 	private EmailService emailService;
 
+	@Mock
+	private ApplicationEventPublisher applicationEventPublisher;
+
 	@Test
 	@DisplayName("[성공] 결제에 성공한다.")
 	void pay() {
@@ -43,17 +48,20 @@ class PaymentServiceTest {
 		memberRepository.save(member);
 		PayRequest payRequest = new PayRequest(1000L);
 		Payment payment = new Payment(member, payRequest.amount());
-		EmailDTO emailDTO = new EmailDTO(member.getEmail(), "제목", "내용");
+		String token = "token";
 
+		doNothing().when(applicationEventPublisher).publishEvent(any(PushAlertEvent.class));
 		when(paymentRepository.save(any(Payment.class))).thenReturn(payment);
 		doNothing().when(emailService).sendEmail(any(EmailDTO.class));
 		//when
-		PayResponse pay = paymentService.pay(member, payRequest.amount());
+		PayResponse pay = paymentService.pay(member, payRequest.amount(), token);
 
 		//then
 		assertThat(pay)
 			.hasFieldOrPropertyWithValue("amount", payRequest.amount());
 		verify(paymentRepository).save(any(Payment.class));
 		verify(emailService).sendEmail(any(EmailDTO.class));
+		verify(applicationEventPublisher).publishEvent(any(PushAlertEvent.class));
+
 	}
 }

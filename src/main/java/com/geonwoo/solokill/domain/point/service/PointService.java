@@ -22,9 +22,9 @@ public class PointService {
 	private final MemberRepository memberRepository;
 
 	@Transactional
-	public ChargeResponse charge(String email, Long chargeAmount) {
+	public ChargeResponse charge(String email, String token, Long chargeAmount) {
 		Member member = memberRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new);
-		PayResponse payResponse = paymentService.pay(member, chargeAmount);
+		PayResponse payResponse = paymentService.pay(member, chargeAmount, token);
 		Point point = new Point(member, chargeAmount);
 		pointRepository.save(point);
 		member.chargePoint(chargeAmount);

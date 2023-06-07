@@ -28,7 +28,8 @@ public class PointController {
 	ResponseEntity<ApiResponse<ChargeResponse>> charge(HttpServletRequest request, @LoginMember MemberDTO memberDTO,
 		@RequestBody ChargeRequest chargeRequest) {
 
-		ChargeResponse chargeResponse = pointService.charge(memberDTO.email(), chargeRequest.chargeAmount());
+		ChargeResponse chargeResponse = pointService.charge(memberDTO.email(), chargeRequest.token(),
+			chargeRequest.chargeAmount());
 
 		return ResponseEntity.created(URI.create(request.getRequestURI() + "/" + chargeResponse.paymentId()))
 			.body(new ApiResponse<>(chargeResponse));

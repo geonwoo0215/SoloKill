@@ -51,3 +51,6 @@ logging:
 
 email:
   address: ${GOOGLE_MAIL_USERNAME}
+
+fcm:
+  certification: ${FCM_PATH}
