@@ -33,6 +33,9 @@ jobs:
       - name: Create Redis Docker Container
         run: sudo docker run -d -p 6379:6379 --name localhost redis
 
+      - name: Create Redis-Session Docker Container
+        run: sudo docker run -d -p 6380:6379 --name localhost redis
+
       # 빌드시 캐시 적용
       - name: Cache Gradle Packages
         uses: actions/cache@v3

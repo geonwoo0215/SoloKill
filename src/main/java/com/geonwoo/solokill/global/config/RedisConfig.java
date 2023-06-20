@@ -23,13 +23,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @EnableCaching
 public class RedisConfig {
 
-	@Value("${spring.redis.host}")
+	@Value("${spring.redis.cache.host}")
 	private String host;
 
-	@Value("${spring.redis.port}")
+	@Value("${spring.redis.cache.port}")
 	private int port;
 
-	@Bean
+	@Bean(name = "redisCache")
 	public RedisConnectionFactory redisConnectionFactory() {
 		return new LettuceConnectionFactory(host, port);
 	}
@@ -52,9 +52,9 @@ public class RedisConfig {
 	}
 
 	@Bean
-	public CacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory) {
+	public CacheManager redisCacheManager() {
 		return RedisCacheManager.RedisCacheManagerBuilder
-			.fromConnectionFactory(redisConnectionFactory)
+			.fromConnectionFactory(redisConnectionFactory())
 			.cacheDefaults(redisCacheConfiguration())
 			.build();
 	}
