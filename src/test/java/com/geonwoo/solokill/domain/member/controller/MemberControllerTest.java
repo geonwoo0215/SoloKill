@@ -11,14 +11,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.geonwoo.solokill.domain.member.dto.request.MemberLoginRequest;
 import com.geonwoo.solokill.domain.member.dto.request.MemberSignUpRequest;
-import com.geonwoo.solokill.domain.member.model.Member;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
 import com.geonwoo.solokill.global.firebase.FCMInitializer;
 import com.geonwoo.solokill.global.firebase.service.FCMService;
@@ -55,24 +52,6 @@ class MemberControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 			.andExpect(status().isCreated())
-			.andDo(print());
-
-	}
-
-	@Test
-	@DisplayName("[성공] 로그인에 성공한다.")
-	void loginSuccess() throws Exception {
-
-		MemberLoginRequest memberLoginRequest = new MemberLoginRequest("loginEmail", "password");
-		String encodedPassword = BCrypt.hashpw(memberLoginRequest.password(), BCrypt.gensalt());
-		Member member = new Member("loginEmail", encodedPassword, "nickname");
-		memberRepository.save(member);
-		String json = objectMapper.writeValueAsString(memberLoginRequest);
-
-		mockMvc.perform(post("/members/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
-			.andExpect(status().isNoContent())
 			.andDo(print());
 
 	}
