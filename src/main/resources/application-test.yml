@@ -40,9 +40,6 @@ spring:
     cache:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
-    session:
-      host: ${REDIS_SESSION_HOST}
-      port: ${REDIS_SESSION_PORT}
 
 riot-api:
   key: ${API_KEY}
