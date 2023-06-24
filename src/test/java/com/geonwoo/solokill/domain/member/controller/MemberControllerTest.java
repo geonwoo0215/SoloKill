@@ -14,9 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.geonwoo.solokill.domain.member.dto.request.MemberSignUpRequest;
 import com.geonwoo.solokill.domain.member.repository.MemberRepository;
+import com.geonwoo.solokill.domain.video.service.AwsS3UploadService;
 import com.geonwoo.solokill.global.firebase.FCMInitializer;
 import com.geonwoo.solokill.global.firebase.service.FCMService;
 
@@ -40,6 +42,12 @@ class MemberControllerTest {
 	@MockBean
 	private FCMService fcmService;
 
+	@MockBean
+	private AmazonS3 amazonS3;
+
+	@MockBean
+	private AwsS3UploadService awsS3UploadService;
+	
 	@Test
 	@DisplayName("[성공] 회원가입에 성공한다.")
 	void signUpSuccess() throws Exception {

@@ -60,3 +60,12 @@ email:
 
 fcm:
   certification: ${FCM_PATH}
+
+ncp:
+  access-key: ${ACCESS_KEY}
+  secret-key: ${SECRET_KEY}
+  region-name: "kr-standard"
+  object-endpoint: "https://kr.object.ncloudstorage.com"
+  bucket-name: "solokill-bucket"
+  folder-name: "solokill-folder/"
+
