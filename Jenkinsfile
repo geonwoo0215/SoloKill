@@ -13,13 +13,13 @@ pipeline {
     }
      stage('Create Mysql Docker Container') {
               steps {
-                  sh 'sudo docker run -d -p 3305:3306 --env MYSQL_DATABASE=${TEST_DATABASE} --env MYSQL_ROOT_PASSWORD=${TEST_DATASOURCE_PASSWORD} mysql:8.0.31'
+                  sh 'docker run -d -p 3305:3306 --env MYSQL_DATABASE=${TEST_DATABASE} --env MYSQL_ROOT_PASSWORD=${TEST_DATASOURCE_PASSWORD} mysql:8.0.31'
               }
      }
 
      stage('Create Redis Docker Container') {
               steps {
-                  sh 'sudo docker run -d -p 6379:6379 --name localhost redis'
+                  sh 'docker run -d -p 6379:6379 --name localhost redis'
               }
      }
 
