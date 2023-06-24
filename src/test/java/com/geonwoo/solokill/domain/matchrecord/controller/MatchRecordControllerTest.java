@@ -14,8 +14,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.geonwoo.solokill.global.firebase.FCMInitializer;
 import com.geonwoo.solokill.global.firebase.service.FCMService;
+import com.geonwoo.solokill.global.properties.NCPProperties;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,6 +31,12 @@ class MatchRecordControllerTest {
 
 	@MockBean
 	private FCMService fcmService;
+
+	@MockBean
+	private NCPProperties ncpProperties;
+
+	@MockBean
+	private AmazonS3 amazonS3;
 
 	@Test
 	@Transactional
