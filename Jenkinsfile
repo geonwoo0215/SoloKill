@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  environment {
+            PATH = "/opt/gradle/gradle-7.6.1/bin:$PATH"
+        }
+
   stages {
     stage('Git Checkout') {
               steps {
