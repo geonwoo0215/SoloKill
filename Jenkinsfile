@@ -15,7 +15,7 @@ pipeline {
     stage('Create Test Database') {
 
         steps{
-            sh 'docker run -d -p 3306:3306 --env MYSQL_DATABASE=${env.TEST_DATABASE} --env MYSQL_ROOT_PASSWORD=${env,TEST_DATASOURCE_PASSWORD} mysql:8.0.31'
+            sh 'docker run -d -p 3306:3306 --env MYSQL_DATABASE=root --env MYSQL_ROOT_PASSWORD=1234 mysql:8.0.31'
 
         }
 
