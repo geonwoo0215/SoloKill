@@ -18,6 +18,12 @@ pipeline {
 
         steps{
             sh 'docker run -d -p 3306:3306 --env MYSQL_DATABASE=${TEST_DATABASE} --env MYSQL_ROOT_PASSWORD=${TEST_DATASOURCE_PASSWORD} mysql:8.0.31'
+
+            // 컨테이너가 실행될 때까지 대기
+            sh "docker wait ${containerName}"
+
+            // 컨테이너 로그 출력
+            sh "docker logs ${containerName}"
         }
 
     }
