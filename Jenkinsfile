@@ -17,7 +17,9 @@ pipeline {
     stage('Create Test Database') {
 
         steps{
-            sh 'docker run -d -p 3306:3306 --env MYSQL_DATABASE=${TEST_DATABASE} --env MYSQL_ROOT_PASSWORD=${TEST_DATASOURCE_PASSWORD} mysql:8.0.31'
+            // 컨테이너 이름 정의
+            def containerName = 'mysql-container'
+            sh 'docker run --name ${containerName} -d -p 3306:3306 --env MYSQL_DATABASE=${TEST_DATABASE} --env MYSQL_ROOT_PASSWORD=${TEST_DATASOURCE_PASSWORD} mysql:8.0.31'
 
             // 컨테이너가 실행될 때까지 대기
             sh "docker wait ${containerName}"
