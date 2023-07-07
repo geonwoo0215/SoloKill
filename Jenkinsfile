@@ -12,14 +12,14 @@ pipeline {
               }
     }
 
-    stage('Create Test Database') {
-
-        steps{
-            sh 'docker run -d -p 3306:3306 --env MYSQL_DATABASE=root --env MYSQL_ROOT_PASSWORD=1234 mysql:8.0.31'
-
-        }
-
-    }
+     stage('Prepare DB') {
+           steps {
+             script {
+               // 도커로 DB 컨테이너 실행
+               sh "docker run --name ${env.TEST_DATABASE} -e MYSQL_ROOT_PASSWORD=${env.TEST_DATASOURCE_PASSWORD} -p 3306:3306 -d mysql:5.7"
+             }
+           }
+         }
 
     stage('Test') {
         steps {
