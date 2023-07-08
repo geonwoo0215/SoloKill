@@ -23,6 +23,7 @@ spring:
             required: true
 
   jpa:
+    defer-datasource-initialization: true
     open-in-view: false
     database: mysql
     show-sql: false
