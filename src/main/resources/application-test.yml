@@ -36,6 +36,10 @@ spring:
           batch_size: 100
         dialect: org.hibernate.dialect.MySQLDialect
 
+  sql:
+    init:
+      mode: always
+
   redis:
     cache:
       host: ${REDIS_HOST}

@@ -14,26 +14,19 @@ spring:
           starttls:
             enable: true
             required: true
-  
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
 
-  jpa:
-    open-in-view: false
-    database: mysql
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        order_inserts: true
-        jdbc:
-          batch_size: 100
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    hikari:
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${MASTER_DATASOURCE_URL}
+        username: ${MASTER_DATASOURCE_USERNAME}
+        password: ${MASTER_DATASOURCE_PASSWORD}
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${SLAVE_DATASOURCE_URL}
+        username: ${SLAVE_DATASOURCE_USERNAME}
+        password: ${SLAVE_DATASOURCE_PASSWORD}
 
   redis:
     cache:

@@ -55,7 +55,7 @@ class MatchRecordControllerTest {
 	@Test
 	@Transactional
 	@Sql(scripts = {"/sql/dummy.sql"})
-	@DisplayName("[성공] 사용자 이름으로 사용자가 최근 사용한 챔피언 이름을 반환한다.")
+	@DisplayName("[성공] 사용자 이름과 챔피언 이름으로 경기 기록을 반환한다.")
 	void getMatchUp() throws Exception {
 
 		String summonerName = "리거누";
