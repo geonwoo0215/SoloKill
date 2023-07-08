@@ -12,15 +12,6 @@ pipeline {
               }
     }
 
-     stage('Prepare DB') {
-               steps {
-                 script {
-                   // 도커로 DB 컨테이너 실행
-                   sh "docker run --name=${env.TEST_DATABASE} -e MYSQL_DATABASE=${env.TEST_DATABASE} -e MYSQL_ROOT_PASSWORD=${env.TEST_DATASOURCE_PASSWORD} -p 3305:3306 -d mysql:5.7"
-                 }
-               }
-             }
-
     stage('Test') {
         steps {
 
