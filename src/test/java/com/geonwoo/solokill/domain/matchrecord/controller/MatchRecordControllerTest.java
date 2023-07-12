@@ -19,7 +19,7 @@ import com.geonwoo.solokill.global.firebase.FCMInitializer;
 import com.geonwoo.solokill.global.firebase.service.FCMService;
 import com.geonwoo.solokill.global.properties.NCPProperties;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class MatchRecordControllerTest {
 

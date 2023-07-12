@@ -24,10 +24,10 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(loginInterceptor)
-			.addPathPatterns("/point")
+			.addPathPatterns("/post")
 			.order(1);
 		registry.addInterceptor(authenticationInterceptor)
-			.addPathPatterns("/point")
+			.addPathPatterns("/post")
 			.order(2);
 	}
 

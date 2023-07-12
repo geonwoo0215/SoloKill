@@ -29,7 +29,7 @@ public class AwsS3UploadService {
 		return upload(uploadFile, dirName);
 	}
 
-	public String upload(File uploadFile, String filePath) {
+	private String upload(File uploadFile, String filePath) {
 		String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();
 		String uploadImageUrl = putS3(uploadFile, fileName);
 		removeNewFile(uploadFile);

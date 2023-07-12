@@ -3,6 +3,8 @@ package com.geonwoo.solokill.domain.member.model;
 import com.geonwoo.solokill.domain.member.model.vo.MemberAuthority;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +29,7 @@ public class Member {
 
 	private Long point;
 
+	@Enumerated(value = EnumType.STRING)
 	private MemberAuthority memberAuthority;
 
 	public Member(String email, String password, String nickname) {
