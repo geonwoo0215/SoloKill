@@ -1,13 +1,12 @@
 package com.geonwoo.solokill.domain.summoner.repository;
 
-import java.util.Optional;
-
+import com.geonwoo.solokill.domain.summoner.model.Summoner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.geonwoo.solokill.domain.summoner.model.Summoner;
+import java.util.Optional;
 
-public interface SummonerRepository extends JpaRepository<Summoner, String> {
+public interface SummonerRepository extends JpaRepository<Summoner, Long> {
 
-	Optional<Summoner> findByName(@Param("name") String name);
+    Optional<Summoner> findByName(@Param("name") String name);
 }
