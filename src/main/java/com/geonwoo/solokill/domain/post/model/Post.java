@@ -1,12 +1,7 @@
 package com.geonwoo.solokill.domain.post.model;
 
 import com.geonwoo.solokill.domain.member.model.Member;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,24 +11,28 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Post {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String title;
+    @ManyToOne
+    private Member member;
 
-	private String content;
+    private String title;
 
-	@ManyToOne
-	private Member member;
+    private String content;
 
-	private String videoUrl;
+    private String videoUrl;
 
-	public Post(String title, String content, Member member, String videoUrl) {
-		this.title = title;
-		this.content = content;
-		this.member = member;
-		this.videoUrl = videoUrl;
-	}
+    public Post(Member member, String title, String content, String videoUrl) {
+        this.member = member;
+        this.title = title;
+        this.content = content;
+        this.videoUrl = videoUrl;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
 
 }

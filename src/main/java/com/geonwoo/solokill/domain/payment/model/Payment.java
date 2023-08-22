@@ -1,36 +1,26 @@
 package com.geonwoo.solokill.domain.payment.model;
 
-import java.time.LocalDateTime;
-
 import com.geonwoo.solokill.domain.member.model.Member;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class Payment {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	private Member member;
+    @ManyToOne
+    private Member member;
 
-	private Long value;
+    private Long value;
 
-	private LocalDateTime createAt;
+    private LocalDateTime createAt;
 
-	public Payment(Member member, Long value) {
-		this.member = member;
-		this.value = value;
-		this.createAt = LocalDateTime.now();
-	}
 }

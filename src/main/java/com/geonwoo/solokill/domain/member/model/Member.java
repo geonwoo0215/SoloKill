@@ -1,46 +1,35 @@
 package com.geonwoo.solokill.domain.member.model;
 
-import com.geonwoo.solokill.domain.member.model.vo.MemberAuthority;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.geonwoo.solokill.domain.point.model.Point;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String email;
+    private String email;
 
-	private String password;
+    private String password;
 
-	private String nickname;
+    private String nickname;
 
-	private Long point;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST)
+    private List<Point> points = new ArrayList<>();
 
-	@Enumerated(value = EnumType.STRING)
-	private MemberAuthority memberAuthority;
-
-	public Member(String email, String password, String nickname) {
-		this.email = email;
-		this.password = password;
-		this.nickname = nickname;
-		this.point = 0L;
-		this.memberAuthority = MemberAuthority.USER;
-	}
-
-	public void chargePoint(Long chargeAmount) {
-		this.point += chargeAmount;
-	}
+    public Member(String email, String password, String nickname) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+    }
 }
